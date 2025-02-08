@@ -125,7 +125,6 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                 <Text weight={500}>Question {slideNumber}</Text>
                 <Text size="sm" color="dimmed">ID: {id}</Text>
             </Group>
-            {image}
             <Textarea
                 value={editedQuestion}
                 onChange={handleQuestionChange}
@@ -149,7 +148,7 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                 )}
             </Transition>
 
-            <Group position="apart" mt="xl">
+            <Group position="apart" mt="auto" mb={"xs"}>
                 <Button
                     leftIcon={showAnswer ? <IconEyeOff size={14} /> : <IconEye size={14} />}
                     variant="light"
