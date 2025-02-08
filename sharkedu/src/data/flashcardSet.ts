@@ -13,7 +13,9 @@ export const flashcardSetData: FlashcardSet = {
         question: "This is a question",
         answers: ["answer 1", "answer 2"],
         incorrectAnswers: ["incorrect answer 1", "incorrect answer 2"],
-        image: ["image1.png"],
+        image: [
+          "https://drarso.xyz/page9741d9ce-30db-43a3-9ada-e73d912530fc_image1.jpeg",
+        ],
         additionalInfo:
           "This is info that the AI can search for outside of the slide content",
       },
@@ -22,7 +24,9 @@ export const flashcardSetData: FlashcardSet = {
         question: "This is a question",
         answers: ["answer 1", "answer 2"],
         incorrectAnswers: ["incorrect answer 1", "incorrect answer 2"],
-        image: ["image1.png"],
+        image: [
+          "https://drarso.xyz/page9741d9ce-30db-43a3-9ada-e73d912530fc_image1.jpeg",
+        ],
         additionalInfo:
           "This is info that the AI can search for outside of the slide content",
       },
@@ -31,7 +35,9 @@ export const flashcardSetData: FlashcardSet = {
         question: "This is a question",
         answers: ["answer 1", "answer 2"],
         incorrectAnswers: ["incorrect answer 1", "incorrect answer 2"],
-        image: ["image1.png"],
+        image: [
+          "https://drarso.xyz/page9741d9ce-30db-43a3-9ada-e73d912530fc_image1.jpeg",
+        ],
         additionalInfo:
           "This is info that the AI can search for outside of the slide content",
       },
@@ -40,7 +46,9 @@ export const flashcardSetData: FlashcardSet = {
         question: "This is a question",
         answers: ["answer 1", "answer 2"],
         incorrectAnswers: ["incorrect answer 1", "incorrect answer 2"],
-        image: ["image1.png"],
+        image: [
+          "https://drarso.xyz/page9741d9ce-30db-43a3-9ada-e73d912530fc_image1.jpeg",
+        ],
         additionalInfo:
           "This is info that the AI can search for outside of the slide content",
       },
@@ -55,7 +63,9 @@ export const flashcardSetData: FlashcardSet = {
           "incorrect answer 2",
           "incorrect answer 3",
         ],
-        image: ["image1.png"],
+        image: [
+          "https://drarso.xyz/page9741d9ce-30db-43a3-9ada-e73d912530fc_image1.jpeg",
+        ],
         additionalInfo:
           "This is info that the AI can search for outside of the slide content",
       },
@@ -68,7 +78,9 @@ export const flashcardSetData: FlashcardSet = {
           "incorrect answer 2",
           "incorrect answer 3",
         ],
-        image: ["image1.png"],
+        image: [
+          "https://drarso.xyz/page9741d9ce-30db-43a3-9ada-e73d912530fc_image1.jpeg",
+        ],
         additionalInfo:
           "This is info that the AI can search for outside of the slide content",
       },
