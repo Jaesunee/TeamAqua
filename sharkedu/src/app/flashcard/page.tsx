@@ -27,10 +27,14 @@ export default function Flashcard() {
   useEffect(() => {
     const fetchFlashcards = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/flashcards/${module}/${chapter}`);
+        console.log("trying to pull data");
+        const id = "1ecf0f80-82d4-41c6-a00d-197e49864358";
+        // const id = "c12b730b-90c5-4435-b9d9-abed32495378";
+        const response = await fetch(`${BASE_URL}/flashcards/legacy/${id}`);
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
-        setFlashcards(data);
+        console.log(data.cards);
+        setFlashcards(data.cards);
       } catch (err) {
         console.error(err);
       }

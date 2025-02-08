@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Container, Text, TextInput, Transition } from "@mantine/core";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 
@@ -13,7 +13,9 @@ export default function FlashcardAnswer(
   }
 ) {
   const [isVisible, setIsVisible] = useState(false);
-
+  useEffect(() => {
+    setIsVisible(false);
+  }, [props.answer])
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   if (props.editMode) {

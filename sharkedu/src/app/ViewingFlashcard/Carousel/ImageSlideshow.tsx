@@ -19,6 +19,7 @@ export default function ImageDisplay({ images }) {
           alt="Single image" 
           fit="cover" 
           radius="md" 
+          style={{ width: '100%' }}
         />
       </Card>
     );
