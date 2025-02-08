@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Text, Image, Button, Group, Stack, Transition, TextInput, Textarea } from '@mantine/core';
 import { IconChevronLeft, IconChevronRight, IconCross, IconEdit, IconEye, IconEyeOff, IconFileUpload, IconPlus, IconSquareRoundedXFilled, IconXboxAFilled, IconXboxXFilled } from '@tabler/icons-react';
 import FlashcardAnswer from './FlashcardAnswer/FlashcardAnswer';
+import FlashcardQuestion from './FlashcardQuestion/FlashcardQuestion';
 
 interface FlashcardProps {
     question: string;
@@ -50,11 +51,10 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
         }
     };
 
-    const handleQuestionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const newQuestion = event.currentTarget.value;
+    const handleQuestionChange = (newQuestion: string) => {
         setEditedQuestion(newQuestion);
         onUpdate?.({ question: newQuestion });
-    };
+      };
 
     const handleAnswerChange = (index: number, value: string) => {
         const newAnswers = [...editedAnswers];
@@ -165,12 +165,13 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                 <Text weight={500}>Question {slideNumber}</Text>
                 <Text size="sm" color="dimmed">ID: {id}</Text>
             </Group>
-            <Textarea
+            {/* <Textarea
                 value={editedQuestion}
                 onChange={handleQuestionChange}
                 placeholder="Enter question"
                 mb="xl"
-            />
+            /> */}
+            <FlashcardQuestion question={editedQuestion} editMode={editMode} onChange={handleQuestionChange} />
 
             <Transition mounted={showAnswer} transition="fade" duration={400} timingFunction="ease">
                 {(styles) => (
