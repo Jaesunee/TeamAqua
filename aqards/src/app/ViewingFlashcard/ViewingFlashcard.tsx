@@ -2,17 +2,34 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, Text, Image, Button, Group, Stack, Transition, TextInput, Textarea } from '@mantine/core';
+import { Carousel } from '@mantine/carousel';
 import { IconChevronLeft, IconChevronRight, IconCross, IconEdit, IconEye, IconEyeOff, IconFileUpload, IconPlus, IconSquareRoundedXFilled, IconXboxAFilled, IconXboxXFilled } from '@tabler/icons-react';
 import FlashcardAnswer from './FlashcardAnswer/FlashcardAnswer';
 import FlashcardQuestion from './FlashcardQuestion/FlashcardQuestion';
 
+// interface FlashcardProps {
+//     question: string;
+//     answers: string[];
+//     image?: string;
+//     id: string | number;
+//     slideNumber: number;
+//     lastSlide: boolean;
+//     onUpdate?: (updatedData: Partial<FlashcardProps>) => void;
+//     onPrev?: () => void;
+//     onNext?: () => void;
+//     showAdditionalInfo?: boolean;
+//     toggleAdditionalInfo?: () => void;
+// }
 interface FlashcardProps {
+    id: string | number;
     question: string;
     answers: string[];
-    image?: string;
-    id: string | number;
-    slideNumber: number;
+    image?: string[]; // changed to array
+    slideNumber: number; // take from the index at the start
+    additionalInfo: string;
+    incorrectAnswers?: string[]; 
     lastSlide: boolean;
+
     onUpdate?: (updatedData: Partial<FlashcardProps>) => void;
     onPrev?: () => void;
     onNext?: () => void;
@@ -75,7 +92,7 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                         onChange={handleAnswerChange}
                     />
                 </div>
-                {editMode && (
+                {/* {editMode && (
                     <Group spacing="xs" noWrap>
                         <Button
                             variant="outline"
@@ -94,8 +111,8 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                             <IconXboxAFilled size={14} />
                         </Button>
                     </Group>
-                )}
-                {!editMode && (
+                )} */}
+                {editMode && (
                     <IconSquareRoundedXFilled
                         size={14}
                         color="red"
@@ -147,20 +164,54 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
     }
     return (
         <Card shadow="sm" padding="lg" radius="xl" withBorder h="80vh" w="30vw">
-            <Card.Section mx={'auto'} mt={'sm'} style={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
-                {image && (
-                    image.length > 0 ? (
-                        <Image
-                            src={image}
-                            w="100%"
-                            h="200px"
-                            fit="cover"
-                            radius="md"
-                            alt="Flashcard image"
-                        />
-                    ) : null
-                )}
-            </Card.Section>
+<Card.Section mx={'auto'} mt={'sm'} style={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
+  {image && image.length > 0 && (
+    <Carousel
+      withIndicators
+      height={200}
+      slideSize="100%"
+      slideGap="md"
+      loop
+      align="start"
+      slidesToScroll={1}
+      styles={{
+        control: {
+          '&[data-inactive]': {
+            opacity: 0,
+            cursor: 'default',
+          },
+        },
+      }}
+      nextControlIcon={<IconChevronRight size={16} />}
+      previousControlIcon={<IconChevronLeft size={16} />}
+    >
+      {Array.isArray(image) ? (
+        image.map((img, index) => (
+          <Carousel.Slide key={index}>
+            <Image
+              src={img}
+              height={200}
+              fit="cover"
+              radius="md"
+              alt={`Flashcard image ${index + 1}`}
+            />
+          </Carousel.Slide>
+        ))
+      ) : (
+        <Carousel.Slide>
+          <Image
+            src={image}
+            height={200}
+            fit="cover"
+            radius="md"
+            alt="Flashcard image"
+          />
+        </Carousel.Slide>
+      )}
+    </Carousel>
+  )}
+</Card.Section>
+
 
 
             <Group position="apart" mt="md" mb="xs">
@@ -179,14 +230,14 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                 {(styles) => (
                     <Stack spacing="xs" style={styles}>
                         {renderAnswers()}
-                        <Button
+                       {editMode && ( <Button
                             lefticon={<IconPlus size={14} />}
                             variant="outline"
                             onClick={addAnswer}
                             fullWidth
                         >
                             Add Answer
-                        </Button>
+                        </Button>)}
                     </Stack>
                 )}
             </Transition>
