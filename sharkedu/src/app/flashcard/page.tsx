@@ -15,7 +15,7 @@ import {
 import sharky from "../../../public/sharky.png";
 import InfoCard from "../InfoCard/InfoCard";
 
-const BASE_URL = "https://backend.sharkedu.org/";
+const BASE_URL = "https://backend.sharkedu.org";
 
 export default function Flashcard() {
   const module = "defaultModule";

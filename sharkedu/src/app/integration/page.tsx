@@ -5,7 +5,7 @@ import { use } from 'react';
 
 import SkeletonFlashCard from "../SkeletonFlashcard/SkeletonFlashcard";
 
-const BASE_URL = "https://backend.sharkedu.org/";
+const BASE_URL = "https://backend.sharkedu.org";
 
 export default  function Integration() {
     const module = "defaultModule";

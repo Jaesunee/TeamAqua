@@ -61,7 +61,7 @@ interface FlashcardProps {
   toggleAdditionalInfo?: () => void;
 }
 
-const BASE_URL = "https://backend.sharkedu.org/";
+const BASE_URL = "https://backend.sharkedu.org";
 
 function Viewing({
   question,
