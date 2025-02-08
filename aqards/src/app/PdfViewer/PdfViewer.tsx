@@ -71,51 +71,49 @@ export function PdfViewer({
   );
   console.log(`files: `, files);
   return (
-    <div className="Example">
-      <div className="Example__container">
-        <div ref={setContainerRef}>
-          {containerRef && ( // Prevent rendering if containerRef is not assigned
-            <Center>
-              <Document
-                file={files[0]}
-                onLoadSuccess={onDocumentLoadSuccess}
-                options={options}
-              >
-                <Page
-                  pageNumber={currentPage}
-                  width={
-                    containerWidth
-                      ? Math.min(containerWidth, maxWidth)
-                      : maxWidth
-                  }
-                />
-              </Document>
-            </Center>
-          )}
-        </div>
-
-        <Flex justify="center" align="center" gap="md" mt="lg">
-          <Button
-            onClick={goToPreviousPage}
-            disabled={currentPage <= 1}
-            variant="default"
+    // <div className="Example">
+    //   <div className="Example__container">
+    <div ref={setContainerRef} style={{ width: "100%", height: "100%" }}>
+      {containerRef && ( // Prevent rendering if containerRef is not assigned
+        <Center>
+          <Document
+            file={files[0]}
+            onLoadSuccess={onDocumentLoadSuccess}
+            options={options}
           >
-            Previous
-          </Button>
+            <Page
+              pageNumber={currentPage}
+              width={
+                containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
+              }
+            />
+          </Document>
+        </Center>
+      )}
+      {/* </div> */}
 
-          <Text size="md" fw={500}>
-            Page {currentPage} of {numPages || "?"}
-          </Text>
+      <Flex justify="center" align="center" gap="md" mt="lg">
+        <Button
+          onClick={goToPreviousPage}
+          disabled={currentPage <= 1}
+          variant="default"
+        >
+          Previous
+        </Button>
 
-          <Button
-            onClick={goToNextPage}
-            disabled={!numPages || currentPage >= numPages}
-            variant="default"
-          >
-            Next
-          </Button>
-        </Flex>
-      </div>
+        <Text size="md" fw={500}>
+          Page {currentPage} of {numPages || "?"}
+        </Text>
+
+        <Button
+          onClick={goToNextPage}
+          disabled={!numPages || currentPage >= numPages}
+          variant="default"
+        >
+          Next
+        </Button>
+      </Flex>
     </div>
+    // </div>
   );
 }

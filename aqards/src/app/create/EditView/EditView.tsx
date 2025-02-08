@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Flex, Card, ScrollArea, Text, Stack } from "@mantine/core";
+import {
+  Container,
+  Flex,
+  Card,
+  ScrollArea,
+  Text,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { FlashcardSet } from "@/types/flashcards";
 import { PdfViewer } from "@/app/PdfViewer/PdfViewer";
 import { FileWithPath } from "@mantine/dropzone";
@@ -11,6 +19,7 @@ interface FlashcardViewerProps {
 export function EditView({ flashcardSet }: FlashcardViewerProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [files, setFiles] = useState<FileWithPath[]>([]);
+
   async function createFileFromPath(
     url: string,
     filename: string,
@@ -18,7 +27,6 @@ export function EditView({ flashcardSet }: FlashcardViewerProps) {
   ): Promise<FileWithPath> {
     const response = await fetch(url, { method: "GET" });
     const blob = await response.blob();
-    console.log(blob);
     const file = new File([blob], filename, { type });
     return Object.assign(file, { path: url }) as FileWithPath;
   }
@@ -38,38 +46,43 @@ export function EditView({ flashcardSet }: FlashcardViewerProps) {
   const flashcardsForPage = flashcardSet.cards[currentPage] || [];
 
   return (
-    <Flex h="100vh" gap="md">
-      <ScrollArea h="100%" w={300} p="md">
-        <Stack>
-          <Text size="lg" fw={700}>
-            Flashcards for Slide {currentPage}
-          </Text>
-          {flashcardsForPage.length > 0 ? (
-            flashcardsForPage.map((card) => (
-              <Card key={card.id} shadow="sm" padding="md" radius="md">
-                <Text size="sm" fw={500}>
-                  {card.question}
-                </Text>
-                <Text size="xs" c="dimmed">
-                  {card.answers.join(", ")}
-                </Text>
-              </Card>
-            ))
-          ) : (
-            <Text size="sm" c="dimmed">
-              No flashcards for this slide.
-            </Text>
-          )}
-        </Stack>
-      </ScrollArea>
+    <Container w="100%" py="xl">
+      <Stack py="md">
+        <Title>Edit your flashcards</Title>
+        <Flex gap="md" p="md">
+          <Flex flex={1} h="100%">
+            <PdfViewer
+              files={files}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
+          </Flex>
 
-      <Flex flex={1} direction="column">
-        <PdfViewer
-          files={files}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-        />
-      </Flex>
-    </Flex>
+          <ScrollArea h="100%" w="35%" p="md">
+            <Stack gap="lg">
+              <Text size="xl" fw={700}>
+                Flashcards for Slide {currentPage}
+              </Text>
+              {flashcardsForPage.length > 0 ? (
+                flashcardsForPage.map((card) => (
+                  <Card key={card.id} shadow="md" padding="lg" radius="lg">
+                    <Text size="md" fw={600}>
+                      {card.question}
+                    </Text>
+                    <Text size="sm" c="dimmed">
+                      {card.answers.join(", ")}
+                    </Text>
+                  </Card>
+                ))
+              ) : (
+                <Text size="md" c="dimmed">
+                  No flashcards for this slide.
+                </Text>
+              )}
+            </Stack>
+          </ScrollArea>
+        </Flex>
+      </Stack>
+    </Container>
   );
 }
