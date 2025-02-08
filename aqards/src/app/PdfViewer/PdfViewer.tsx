@@ -1,4 +1,10 @@
-import { useCallback, useState, useMemo } from "react";
+import {
+  useCallback,
+  useState,
+  useMemo,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import { pdfjs, Document, Page } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
@@ -16,16 +22,19 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 const maxWidth = 500;
 
 interface PdfViewerProps {
-  files: FileWithPath[]; // this should only be a list of one file.
+  files: FileWithPath[]; // Should contain only one file
+  currentPage: number;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
 }
 
-export function PdfViewer({ files }: PdfViewerProps) {
+export function PdfViewer({
+  files,
+  currentPage,
+  setCurrentPage,
+}: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
-
-  console.log("refreshing page");
 
   // Resize observer callback
   const onResize = useCallback<ResizeObserverCallback>((entries) => {
@@ -39,21 +48,19 @@ export function PdfViewer({ files }: PdfViewerProps) {
 
   const onDocumentLoadSuccess = useCallback(
     ({ numPages: loadedPages }: PDFDocumentProxy) => {
-      if (loadedPages !== numPages) {
-        setNumPages(loadedPages);
-        setCurrentPage(1);
-      }
+      setNumPages(loadedPages);
+      setCurrentPage(1); // Reset to the first page when loading a new document
     },
-    [numPages]
+    [setCurrentPage]
   );
 
   const goToPreviousPage = useCallback(() => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
-  }, []);
+  }, [setCurrentPage]);
 
   const goToNextPage = useCallback(() => {
     setCurrentPage((prev) => (numPages ? Math.min(prev + 1, numPages) : prev));
-  }, [numPages]);
+  }, [numPages, setCurrentPage]);
 
   const options = useMemo(
     () => ({
@@ -62,7 +69,7 @@ export function PdfViewer({ files }: PdfViewerProps) {
     }),
     []
   );
-
+  console.log(`files: `, files);
   return (
     <div className="Example">
       <div className="Example__container">

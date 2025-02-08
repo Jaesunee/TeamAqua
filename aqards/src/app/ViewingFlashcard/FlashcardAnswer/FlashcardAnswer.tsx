@@ -18,7 +18,7 @@ export default function FlashcardAnswer(
 
   if (props.editMode) {
     return (
-      <Container w="100%" py="xl">
+      <Container w="100%" >
         <TextInput
           value={props.answer}
           onChange={(e) => props.onChange(props.index, e.currentTarget.value)}
@@ -35,7 +35,7 @@ export default function FlashcardAnswer(
   }
 
   return (
-    <Container w="100%" py="xl" pos="relative">
+    <Container w="100%"  pos="relative">
       <div style={{ position: 'relative', minHeight: '2rem' }}>
         <Transition
           mounted={isVisible}
@@ -76,7 +76,6 @@ export default function FlashcardAnswer(
               toggleVisibility();
             }}
           >
-            {isVisible ? 'Hide Answer' : 'Show Answer'}
           </Button>
         </div>
       </div>

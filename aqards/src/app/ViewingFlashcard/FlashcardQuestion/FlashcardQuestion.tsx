@@ -32,8 +32,8 @@ export default function FlashcardQuestion(
 
   return (
     <Container w="100%" py="xl" pos="relative">
-      <div style={{ position: 'relative', minHeight: '2rem' }}>
-      <Text size="lg" >
+      <div style={{ position: 'relative', minHeight: '2rem', fontWeight: 'bold' }}>
+      <Text size="lg" style={{fontWeight: 'bold', fontSize: 'var(--mantine-font-size-xl)'}}  >
               {props.question}
             </Text>
      
