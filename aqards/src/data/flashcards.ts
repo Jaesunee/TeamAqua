@@ -5,9 +5,9 @@ export const flashcards: FlashcardSet = {
   cards: [
     {
       answers: ["answer 1", "answer 2"], // answers to the question
-      id: "43ipFnjVcOYrongpz4eZ", // unique id 
-      image: ["image1.png"], // images extracted from the slide
-      question: "This is a question", 
+      id: "43ipFnjVcOYrongpz4eZ", // unique id
+      image: ["image1.png"], // images extracted from the slide, links to firebase object storage
+      question: "This is a question",
       slideNumber: 1, // slide that the question is from
       additionalInfo:
         "This is info that the ai can search for outside of the slide content",
