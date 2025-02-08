@@ -5,12 +5,17 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from utils.extraction_utils import upload_pdf_s3, get_pdf_s3, extract_pdf
 from utils.generation_utils import generate_flashcards
-from utils.firebase_utils import add_data, get_data, update_data
+from utils.firebase_utils import add_data, get_data, update_data, get_all
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.route("/flashcards", methods=["GET"])
+def get_pdf_ids():
+    data = get_all()
+    return jsonify(data)
 
 @app.route("/flashcards/<flashcards_id>", methods=["GET"])
 def get_flashcards(flashcards_id:str):

@@ -4,7 +4,7 @@ import datetime
 from flask import Blueprint, request, jsonify
 from utils.extraction_utils import upload_pdf_s3, get_pdf_s3, extract_pdf
 from utils.generation_utils import generate_flashcards
-from utils.firebase_utils import add_data, get_data, update_data
+from utils.firebase_utils import add_data, get_data, update_data, get_all
 
 extraction_bp = Blueprint('extraction', __name__, url_prefix='/extraction')
 
@@ -34,6 +34,11 @@ def extract_flashcards():
     add_data(res)
 
     return jsonify(res)
+
+@extraction_bp.route("/flashcards", methods=["GET"])
+def get_pdf_ids():
+    data = get_all()
+    return jsonify(data)
 
 @extraction_bp.route("/flashcards/<flashcards_id>", methods=["GET"])
 def get_flashcards(flashcards_id):
