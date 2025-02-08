@@ -4,7 +4,7 @@ import { Upload } from "@/app/create/Upload/Upload";
 import { Button, Container, Space, Stack, Text, Title } from "@mantine/core";
 import { FileWithPath } from "@mantine/dropzone";
 import { useState } from "react";
-import { Preview } from "@/app/create/Preview/Preview";
+import { PdfViewer } from "@/app/PdfPreview/Preview";
 
 export default function Create() {
   const [files, setFiles] = useState<FileWithPath[]>([]);
@@ -31,7 +31,7 @@ export default function Create() {
             <Button color="red" onClick={removeFile}>
               Remove File
             </Button>
-            <Preview files={files} />
+            <PdfViewer files={files} />
           </>
         )}
         <Space h="xs" />
