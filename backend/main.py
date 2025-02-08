@@ -26,7 +26,6 @@ def update_flashcard(module_name:str, chapter_name:int, flashcard_id:str):
     Update a particular flashcard
     """
     new_flashcard_obj = request.json
-    print(new_flashcard_obj)
     data = fs_update_flashcard(module_name, chapter_name, flashcard_id, new_flashcard_obj)
     return jsonify(data)
 
@@ -94,15 +93,15 @@ def add_chapter():
 #     data.append(new_item)
 #     return jsonify(new_item), 201
 
-# @app.route("/items/<int:item_id>", methods=["PUT"])
-# def update_item(item_id):
-#     item = next((item for item in data if item["id"] == item_id), None)
-#     if item is None:
-#         return jsonify({"error": "Item not found"}), 404
+@app.route("/items/<int:item_id>", methods=["PUT"])
+def update_item(item_id):
+    item = next((item for item in data if item["id"] == item_id), None)
+    if item is None:
+        return jsonify({"error": "Item not found"}), 404
 
-#     updated_data = request.json
-#     item.update(updated_data)
-#     return jsonify(item)
+    updated_data = request.json
+    item.update(updated_data)
+    return jsonify(item)
 
 # @app.route("/items/<int:item_id>", methods=["DELETE"])
 # def delete_item(item_id):

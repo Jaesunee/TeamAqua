@@ -25,7 +25,7 @@ def fs_scrape_and_add_flashcard(url:str, module:str, chapter_number:int, chapter
     for flashcard in flashcard_list:
         # Add the chapter_name to the flashcard object
         # Add the flashcard object to the Firestore collection hierarchy
-        db.collection(module_name).document(str(chapter_number)).collection("flashcard_database").add(flashcard)
+        db.collection(module_name).document(str(chapter_number)).collection("flashcard_data").add(flashcard)
 
     # Store chapter_name : chapter_order mapping here
     db.collection(module_name).document("chapter_mapping").set({chapter_name: chapter_number}, merge=True)
@@ -59,7 +59,7 @@ def fs_get_flashcards(module_name, chapter_name):
         return "Chapter does not exist!"
     chapters_ref = db.collection(module_name).document(str(chapter_number))
     
-    # Get the flashcard_database sub-collection
+    # Get the flashcard_data sub-collection
     flashcards_ref = chapters_ref.collection("flashcard_data")
     flashcards_docs = flashcards_ref.stream()
 
@@ -79,8 +79,9 @@ def fs_update_flashcard(module_name, chapter_name, flashcard_id, new_flashcard_o
         return "Chapter does not exist!"
     chapters_ref = db.collection(module_name).document(str(chapter_number))
     
-    # Get the flashcard_database sub-collection
-    flashcards_ref = chapters_ref.collection("flashcard_database")
+    # Get the flashcard_data sub-collection
+    flashcards_ref = chapters_ref.collection("flashcard_data")
+    print(f"Flashcard ID: {flashcard_id}, Flashcards Ref: {flashcards_ref}, New Flashcard Obj: {new_flashcard_obj}")
     flashcard_ref = flashcards_ref.document(flashcard_id)
     flashcard_ref.update(new_flashcard_obj)
     return "Flashcard updated!"
