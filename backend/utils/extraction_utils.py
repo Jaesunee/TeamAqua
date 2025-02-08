@@ -61,5 +61,5 @@ def extract_pdf(pdf, id=uuid.uuid4(), delimiter="SLIDE_"):
             image_ext = base_image["ext"]
             image_path = f"pdf_{id}_page_{i+1}_image_{len(images)+1}.{image_ext}"
             s3.upload_fileobj(io.BytesIO(image_bytes), bucket, image_path)
-            images[i+1].append(image_path)
+            images[i+1].append("https://drarso.xyz/" + image_path)
     return {"text": text, "images": images}

@@ -59,7 +59,7 @@ def generate_flashcards(text_and_images, num_pairs, slide_delimiter_form, flashc
         {   
             "role": "user",
             "content": (
-                f"Give me {num_pairs} flashcards (format Q.[slide_num].[question_num]:[Question] [Newline] A:[Answer(s)] [Newline] E:[Brief explanation of Answer and/or links to citations] [Newline] W: [Potentially wrong answers separated by commas] [Newline]) for each piece of text separated by {slide_delimiter_form} (indicating slide_num) of the attached text. This should result in {num_pairs} x slide_num flashcards in total."
+                f"Give me {num_pairs} flashcards (format Q.[flashcard_num]:[Academic Question] A:[Answer(s)] E:[Brief explanation of Answer and/or links to citations] W: [Potentially wrong answers separated by commas] S: [Slide Number for Reference] ) for each slide separated by {slide_delimiter_form} (indicating slide_num) of the attached text. This should result in {num_pairs} flashcards in total."
             ),
         },
     ]
@@ -72,16 +72,17 @@ def generate_flashcards(text_and_images, num_pairs, slide_delimiter_form, flashc
     text_response = response.choices[0].message.content
 
     print(text_response)
+    print(text_and_images["images"])
 
     # Regular expression to extract Q, A, E triplets
-    pattern = r"Q\.(\d+).(\d+): (.*?)\nA: (.*?)\nE: (.*?)\nW: (.*?)\n"
+    pattern = r"Q\.(\d+): (.*?)\nA: (.*?)\nE: (.*?)\nW: (.*?)\nS: (\d+)"
 
     # Find all matches
     flashcards = re.findall(pattern, text_response)
 
     # Generate flashcards from the triplets
     for idx, info in enumerate(flashcards, 1):
-        slide_num, question_num, question, answers, explanation, wrong_answers  = info
+        _, question, answers, explanation, wrong_answers, slide_num  = info
         current_id = flashcard_id + "_" + str(idx)
         answers = answers.split(", ")
         wrong_answers = wrong_answers.split(", ")
@@ -92,6 +93,7 @@ def generate_flashcards(text_and_images, num_pairs, slide_delimiter_form, flashc
             "answers": answers,
             "incorrectAnswers": wrong_answers,
             "additionalInfo": explanation,
+            "image": text_and_images["images"][int(slide_num)]
         }
 
         current_flashcards = flashcards_data.get(slide_num, [])
