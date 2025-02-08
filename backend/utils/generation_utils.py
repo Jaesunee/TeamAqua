@@ -59,7 +59,7 @@ def generate_flashcards(text_and_images, num_pairs, slide_delimiter_form, flashc
         {   
             "role": "user",
             "content": (
-                f"Give me {num_pairs} flashcards (format Q.[slide_num].[question_num]:[Question] [Newline] A:[Answer(s)] [Newline] E:[Brief explanation of Answer and/or links to citations] [Newline] W: [Potentially wrong answers separated by commas] [Newline]) for each piece of text separated by {slide_delimiter_form} (indicating slide_num) of the attached text. This should result in {num_pairs} x slide_num flashcards in total."
+                f"Give me {num_pairs} flashcards (format Q.[slide_num].[flashcard_num]:[Question] A:[Answer(s)] E:[Brief explanation of Answer and/or links to citations] W: [Potentially wrong answers separated by commas] ) for each slide separated by {slide_delimiter_form} (indicating slide_num) of the attached text. This should result in {num_pairs} x slide_num flashcards in total."
             ),
         },
     ]
