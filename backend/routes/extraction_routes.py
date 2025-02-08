@@ -4,7 +4,7 @@ import datetime
 from flask import Blueprint, request, jsonify
 from utils.extraction_utils import upload_pdf_s3, get_pdf_s3, extract_pdf
 from utils.generation_utils import generate_flashcards
-from utils.firebase_utils import fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard, fs_get_chapters
+from utils.firebase_utils import add_data
 
 extraction_bp = Blueprint('extraction', __name__, url_prefix='/extraction')
 
@@ -95,15 +95,6 @@ def extract_flashcards():
             "cards": flashcards
         }
 
-
-    # save flashcards to firestore
-    for flashcard in res["cards"].keys():
-    # assume validated
-        fs_add_flashcard(
-            'default module',
-            69,
-            res["name"],
-            res["cards"][flashcard]
-        )
+    add_data(res)
 
     return jsonify(res)
