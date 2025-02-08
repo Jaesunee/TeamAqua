@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  &[data-navbar] {
+    margin-left: rem(260px);
+  }
+  &[data-minimized] {
+    margin-left: rem(80px);
+  }
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
