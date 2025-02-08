@@ -12,11 +12,15 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 ref = db.collection('data')
 
+# add 
 def add_data(data):
     ref.document(data['id']).set(data)
 
 def get_data(id):
     return ref.document(id).get().to_dict()
+
+def get_all():
+    return [doc.to_dict()['id'] for doc in ref.stream()]
 
 def update_data(id, data):
     ref.document(id).update(data)
@@ -24,7 +28,6 @@ def update_data(id, data):
 def fs_add_flashcard(module: str, chapter_number:int, chapter_name:str, data:dict):
     db.collection(module).document(str(chapter_number)).collection("flashcard_data").add(data)
     db.collection(module).document("chapter_mapping").set({chapter_name: chapter_number}, merge=True)
-
 
 def fs_scrape_and_add_flashcard(url:str, module:str, chapter_number:int, chapter_name:str):
     flashcard_list = retrieve_flashcards(url)
