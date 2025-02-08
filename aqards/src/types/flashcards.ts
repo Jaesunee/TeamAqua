@@ -12,4 +12,6 @@ export interface FlashcardSet {
   name: string // User-defined name for the flashcard set
   file: string; // Link to Firebase object storage
   cards: Record<number, Flashcard[]>; // Map of flashcardNum to list of flashcards
+  dateCreated?: string; // Date the flashcard set was created
+  dateModified?: string; // Date the flashcard set was last modified
 }

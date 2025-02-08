@@ -171,7 +171,16 @@ def fs_add_chapter(chapterName:str, moduleName:str, id:str):
         })
     except StopIteration:
         return "Module does not exist!"
-
+    
+def fs_get_chapters(moduleName:str):
+    # Get a reference to the "modules" collection
+    modules_ref = db.collection(moduleName)
+    docs = modules_ref.stream()
+    try:
+        doc = next(docs)
+        return doc.to_dict()
+    except StopIteration:
+        return "Module does not exist!"
 
 
 

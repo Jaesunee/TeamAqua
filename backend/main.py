@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from utils.firebase_utils import fs_scrape_and_add_flashcard, fs_get_flashcards, fs_update_flashcard, fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard
+from utils.firebase_utils import fs_scrape_and_add_flashcard, fs_get_flashcards, fs_update_flashcard, fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard, fs_get_chapters
 from dotenv import load_dotenv
 import re
 
@@ -20,7 +20,6 @@ def get_flashcards(module_name:str, chapter_name:int):
     Get ALL flashcards of a particular module.
     """
     data = fs_get_flashcards(module_name, chapter_name)
-    print(f"Module: {module_name}, Chapter: {chapter_name}, Data: {data}")
     return jsonify(data)
 
 @app.route("/flashcards/<module_name>/<chapter_name>/<flashcard_id>", methods=["PUT"])
@@ -49,7 +48,16 @@ def add_flashcards():
         )
     return jsonify("Status: Done")
 
-
+@app.route("/flashcards/<module_name>/chapters", methods=["GET"])
+def get_chapters(module_name):
+    """
+    Retrieve chapters from a module.
+    """
+    try:
+        chapters = fs_get_chapters(module_name)
+        return jsonify({"chapters": chapters}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 # ======================= Redundant =======================
 
@@ -96,6 +104,9 @@ def add_chapter():
             return jsonify({"error": str(e)}), 400
     else:
         return jsonify({"error": "Module does not exist!"}), 400
+    
+
+
 
 # @app.route("/items", methods=["POST"])
 # def create_item():
