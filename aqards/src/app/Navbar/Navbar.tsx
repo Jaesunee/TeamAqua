@@ -1,44 +1,66 @@
 "use client";
 
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Icon2fa,
-  IconBellRinging,
-  IconDatabaseImport,
-  IconFingerprint,
-  IconKey,
+  IconUser,
   IconLogout,
-  IconReceipt2,
-  IconSettings,
+  IconFilePlus,
+  IconHome,
   IconSwitchHorizontal,
 } from "@tabler/icons-react";
+import { usePathname, useRouter } from "next/navigation";
 import { Code, Group } from "@mantine/core";
 import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./Navbar.module.css";
 
-const data = [
-  { link: "", label: "Notifications", icon: IconBellRinging },
-  { link: "", label: "Billing", icon: IconReceipt2 },
-  { link: "", label: "Security", icon: IconFingerprint },
-  { link: "", label: "SSH Keys", icon: IconKey },
-  { link: "", label: "Databases", icon: IconDatabaseImport },
-  { link: "", label: "Authentication", icon: Icon2fa },
-  { link: "", label: "Other Settings", icon: IconSettings },
-];
-
 export function Navbar() {
-  const [active, setActive] = useState("Billing");
+  const router = useRouter();
+  const [path, setPath] = useState("");
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setPath(pathname);
+    console.log(pathname === "/create");
+  }, [pathname]);
+
+  const data = [
+    {
+      active: path === "/",
+      link: "",
+      label: "Home",
+      icon: IconHome,
+      onClick: (event: React.MouseEvent) => handleLinkClick(event, "/"),
+    },
+    {
+      active: path === "/create",
+      link: "",
+      label: "Create",
+      icon: IconFilePlus,
+      onClick: (event: React.MouseEvent) => handleLinkClick(event, "/create"),
+    },
+    {
+      active: path === "/profile",
+      link: "",
+      label: "Profile",
+      icon: IconUser,
+      onClick: (event: React.MouseEvent) => handleLinkClick(event, "/profile"),
+    },
+  ];
+
+  const handleLinkClick = (event: React.MouseEvent, link: string) => {
+    event.preventDefault();
+    if (link) {
+      router.push(link);
+    }
+  };
 
   const links = data.map((item) => (
     <a
       className={classes.link}
-      data-active={item.label === active || undefined}
+      data-active={item.active ? "true" : undefined}
       href={item.link}
       key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(item.label);
-      }}
+      onClick={item.onClick}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
