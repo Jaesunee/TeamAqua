@@ -3,7 +3,6 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from datetime import datetime
-import json
 
 # Replace 'path/to/your-service-account.json' with the path to your Firebase service account JSON file
 cred = credentials.Certificate("../python_firebase_keys.json")
@@ -11,6 +10,16 @@ firebase_admin.initialize_app(cred)
 
 # Initialize Firestore
 db = firestore.client()
+ref = db.collection('data')
+
+def add_data(data):
+    ref.document(data['id']).set(data)
+
+def get_data(id):
+    return ref.document(id).get().to_dict()
+
+def update_data(id, data):
+    ref.document(id).update(data)
 
 def fs_add_flashcard(module: str, chapter_number:int, chapter_name:str, data:dict):
     db.collection(module).document(str(chapter_number)).collection("flashcard_data").add(data)

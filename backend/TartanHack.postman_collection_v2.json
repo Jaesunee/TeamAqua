@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "cf01fe4a-dff3-423c-a9b9-11ec11de4912",
+		"name": "TartanHack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15046409"
+	},
+	"item": [
+		{
+			"name": "AddFlashcard",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"module\" : \"defaultModule\",\n    \"chapter\" : \"defaultChapter\",\n    \"chapterName\" : \"defaultChapterName2\",\n    \"chapterNumber\": 1,\n    \"data\": [\n       { \"question\" : \"This is a question\",\n        \"answers\" : [\"answer 1\", \"answer 2\"],\n        \"image\": [\"image1.png\"],\n        \"slideNumber\" : 1}\n    ]\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/add",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddMultipleFlashcards",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"module\": \"defaultModule\",\n    \"chapter\": \"defaultChapter\",\n    \"chapterName\": \"defaultChapterName2\",\n    \"chapterNumber\": 2,\n    \"data\": [\n        {\n            \"question\": \"This is a question\",\n            \"answers\": [\n                \"answer 1\",\n                \"answer 2\"\n            ],\n            \"image\": [\n                \"image1.png\"\n            ],\n            \"slideNumber\": 1\n        },\n        {\n            \"question\": \"This is a question too\",\n            \"answers\": [\n                \"answer 1\",\n                \"answer 2\"\n            ],\n            \"image\": [\n                \"image1.png\"\n            ],\n            \"slideNumber\": 5\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/add",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateFlashcard",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"module\" : \"defaultModule\",\n    \"chapter\" : \"defaultChapter\",\n    \"chapterName\" : \"defaultChapterName\",\n    \"chapterNumber\": 1,\n    \"data\": {\n        \"question\" : \"This is a question\",\n        \"answers\" : [\"answer 1\", \"answer 2\"],\n        \"image\": [\"image1.png\"],\n        \"slideNumber\" : 1\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/defaultModule/defaultChapterName/43ipFnjVcOYrongpz4eZ",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"defaultModule",
+						"defaultChapterName",
+						"43ipFnjVcOYrongpz4eZ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFlashcard",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"input_type\":\"text\",\n    \"text\": \"?qquestion1 ?a this is the answer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/defaultModule/defaultChapterName",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"defaultModule",
+						"defaultChapterName"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PDF Upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/afiffahreza/Downloads/Recitation-3-QA-tradeoffs.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extraction GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/c12b730b-90c5-4435-b9d9-abed32495378",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"c12b730b-90c5-4435-b9d9-abed32495378"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extraction PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cards\": {\n    \"1\": [\n      {\n        \"additionalInfo\": \"The title slide indicates that Lecture 6 covers \\\"Reasoning About State Machines\\\" in the Formal Methods course.\",\n        \"answers\": [\n          \"Reasoning About State Machines\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_1\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"State Machine Basics\",\n          \"Formal Methods Introduction\",\n          \"Software Verification\"\n        ],\n        \"question\": \"What is the topic of Lecture 6 in the Formal Methods course?\"\n      }\n    ],\n    \"10\": [\n      {\n        \"additionalInfo\": \"The diagram shows the \\\"Invariant\\\" area encompassing the reachable states and excluding the bad states, representing the \\\"good\\\" region of the state space.\",\n        \"answers\": [\n          \"The set of \\\"good\\\" states that the system should always stay within during execution\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_10\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"All possible states\",\n          \"Only the initial states\",\n          \"The set of bad states\"\n        ],\n        \"question\": \"In the state space diagram, what does the area labeled \\\"Invariant\\\" represent?\"\n      }\n    ],\n    \"11\": [\n      {\n        \"additionalInfo\": \"The slide provides this formal definition for an invariant of a model.\",\n        \"answers\": [\n          \"\\u2200e: executions; s: S \\u2022 (s \\u2208 ran e) \\u21d2 \\u03c6(s)\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_11\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"\\u2200s: S \\u2022 \\u03c6(s)\",\n          \"\\u03c6(s)\",\n          \"\\u2203e: executions; s: S \\u2022 (s \\u2208 ran e) \\u2227 \\u03c6(s)\"\n        ],\n        \"question\": \"What is the formal definition of an invariant for a machine M and predicate \\u03c6?\"\n      }\n    ],\n    \"12\": [\n      {\n        \"additionalInfo\": \"The slide explicitly states that \\\"the value of x never decreases\\\" is not an example of an invariant.\",\n        \"answers\": [\n          \"The value of x never decreases\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_12\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"The value of variable x is always positive\",\n          \"The battery is charged whenever the system is in the unplugged state\",\n          \"The class always has less than 30 students in it\"\n        ],\n        \"question\": \"Which of the following is NOT an example of an invariant given in the slide?\"\n      }\n    ],\n    \"13\": [\n      {\n        \"additionalInfo\": \"The slide suggests enumerating all executions and examining each case separately for finite behavior state machines.\",\n        \"answers\": [\n          \"Enumerate all executions and examine each case separately\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_13\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"Use induction\",\n          \"Prove by contradiction\",\n          \"Use symbolic execution\"\n        ],\n        \"question\": \"What technique is suggested for demonstrating that an invariant holds for a state machine with finite behavior?\"\n      }\n    ],\n    \"14\": [\n      {\n        \"additionalInfo\": \"The slide mentions these two techniques for infinite or very large state machines.\",\n        \"answers\": [\n          \"Proving by implication and using induction over the machine's behavior\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_14\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"Model checking and theorem proving\",\n          \"Abstraction and refinement\",\n          \"Symbolic execution and testing\"\n        ],\n        \"question\": \"What are the two proof techniques mentioned for infinite or very large state machines?\"\n      }\n    ],\n    \"15\": [\n      {\n        \"additionalInfo\": \"The slide lists these three components (a, b, c) as necessary for an induction proof.\",\n        \"answers\": [\n          \"A set of initial elements (I)\",\n          \"a rule for generating additional elements (R)\",\n          \"and the rule being sufficient to reach all values in S\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_15\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"A base case\",\n          \"an induction step\",\n          \"and a conclusion; A hypothesis\",\n          \"a proof\",\n          \"and a verification; A state space\",\n          \"transitions\",\n          \"and invariants\"\n        ],\n        \"question\": \"What are the three components needed for an induction proof as described in the slide?\"\n      }\n    ],\n    \"16\": [\n      {\n        \"additionalInfo\": \"The slide provides this example for induction on natural numbers.\",\n        \"answers\": [\n          \"I = {1}\",\n          \"R = \\\"incr\\\" (increment)\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_16\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"I = {0}\",\n          \"R = \\\"double\\\"; I = {1,2}\",\n          \"R = \\\"add\\\"; I = \\u2115\",\n          \"R = \\\"multiply by 2\\\"\"\n        ],\n        \"question\": \"For induction on natural numbers, what is given as the initial set I and the rule R?\"\n      }\n    ],\n    \"17\": [\n      {\n        \"additionalInfo\": \"The slide outlines these three steps for applying induction to state machines.\",\n        \"answers\": [\n          \"1. Show the invariant holds in all initial states\",\n          \"2. Show each action preserves the invariant\",\n          \"3. Conclude it holds in all reachable states\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_17\",\n        \"image\": [\n          \"https://drarso.xyz/pdf_c12b730b-90c5-4435-b9d9-abed32495378_page_17_image_18.png\"\n        ],\n        \"incorrectAnswers\": [\n          \"1. Define the state space\",\n          \"2. List all transitions\",\n          \"3. Prove termination; 1. Choose an invariant\",\n          \"2. Prove it holds for some states\",\n          \"3. Generalize to all states\"\n        ],\n        \"question\": \"What are the three steps for applying induction to state machines?\"\n      }\n    ],\n    \"18\": [\n      {\n        \"additionalInfo\": \"The slide states \\\"Prove: CounterSquare \\u22a8 x\\u00b2 = y\\\", indicating this is the invariant to be proved.\",\n        \"answers\": [\n          \"x\\u00b2 = y\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_18\",\n        \"image\": [\n          \"https://drarso.xyz/pdf_c12b730b-90c5-4435-b9d9-abed32495378_page_18_image_19.png\"\n        ],\n        \"incorrectAnswers\": [\n          \"x = y\",\n          \"x + y = 0\",\n          \"x < y\"\n        ],\n        \"question\": \"What is the invariant to be proved for the CounterSquare example?\"\n      }\n    ],\n    \"19\": [\n      {\n        \"additionalInfo\": \"The slide shows that the first step is to prove the invariant holds in the initial state [x = 0; y = 0].\",\n        \"answers\": [\n          \"Show \\u03c6 holds in the initial state(s)\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_19\",\n        \"image\": [\n          \"https://drarso.xyz/pdf_c12b730b-90c5-4435-b9d9-abed32495378_page_19_image_20.png\"\n        ],\n        \"incorrectAnswers\": [\n          \"Show the invariant holds after one transition\",\n          \"Prove the invariant for all possible values\",\n          \"Show the invariant is preserved by all actions\"\n        ],\n        \"question\": \"What is the first step in proving the invariant for the CounterSquare example?\"\n      }\n    ],\n    \"2\": [\n      {\n        \"additionalInfo\": \"The slide lists \\\"revisiting our basic state machine model\\\" and \\\"invariants\\\" as two of the main topics for today's lecture.\",\n        \"answers\": [\n          \"Revisiting the basic state machine model and invariants\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_2\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"State machine variations\",\n          \"Graphical notation\",\n          \"Executions and traces\"\n        ],\n        \"question\": \"What are the two main topics covered in this lecture according to \\\"The Story So Far\\\" slide?\"\n      }\n    ],\n    \"20\": [\n      {\n        \"additionalInfo\": \"The slide states that for the induction step, we must prove that y' = (x')\\u00b2.\",\n        \"answers\": [\n          \"y' = (x')\\u00b2\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_20\",\n        \"image\": [\n          \"https://drarso.xyz/pdf_c12b730b-90c5-4435-b9d9-abed32495378_page_20_image_21.png\"\n        ],\n        \"incorrectAnswers\": [\n          \"x' = x + 1\",\n          \"y' = y + 1\",\n          \"x\\u00b2 = y\"\n        ],\n        \"question\": \"In the induction step for the CounterSquare example, what must be proved?\"\n      }\n    ],\n    \"3\": [\n      {\n        \"additionalInfo\": \"The slide shows that for a counter example with two variables, the state space is represented as S == [x,y:\\u2115].\",\n        \"answers\": [\n          \"S == [x,y:\\u2115]\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_3\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"S == [x:\\u2115]\",\n          \"S == {x,y}\",\n          \"S == (x,y:\\u2115)\"\n        ],\n        \"question\": \"How is the state space formally represented for a counter example with two variables?\"\n      }\n    ],\n    \"4\": [\n      {\n        \"additionalInfo\": \"The slide states that \\\"there will be an a transition when the predicate pre(s) \\u2227 post(s,s') is true\\\".\",\n        \"answers\": [\n          \"There will be an 'a' transition when this predicate is true\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_4\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"The transition is impossible\",\n          \"The state remains unchanged\",\n          \"The transition is optional\"\n        ],\n        \"question\": \"What does the predicate pre(s) \\u2227 post(s,s') being true indicate about a transition?\"\n      }\n    ],\n    \"5\": [\n      {\n        \"additionalInfo\": \"The slide asks how to define the \\\"pop\\\" operation, and one correct precondition is that the stack is not empty (st \\u2260 <>).\",\n        \"answers\": [\n          \"st \\u2260 <>\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_5\",\n        \"image\": [\n          \"https://drarso.xyz/pdf_c12b730b-90c5-4435-b9d9-abed32495378_page_5_image_6.png\"\n        ],\n        \"incorrectAnswers\": [\n          \"true\",\n          \"st = <>\",\n          \"st > 0\"\n        ],\n        \"question\": \"For a stack of natural numbers, what is the precondition for the pop() operation?\"\n      }\n    ],\n    \"6\": [\n      {\n        \"additionalInfo\": \"This definition is likely a mistake because it allows popping from an empty stack, which should not be possible.\",\n        \"answers\": [\n          \"pop()/ok(\\u2115) pre true post st \\u2260 <> \\u2227 st = st' \\u2322 <result>\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_6\",\n        \"image\": [\n          \"https://drarso.xyz/pdf_c12b730b-90c5-4435-b9d9-abed32495378_page_6_image_7.png\",\n          \"https://drarso.xyz/pdf_c12b730b-90c5-4435-b9d9-abed32495378_page_6_image_7.png\",\n          \"https://drarso.xyz/pdf_c12b730b-90c5-4435-b9d9-abed32495378_page_6_image_7.png\"\n        ],\n        \"incorrectAnswers\": [\n          \"pop()/ok(\\u2115) pre st \\u2260 <> post st = st' \\u2322 <result>\",\n          \"pop()/ok(\\u2115) pre true post (st \\u2260 <>) \\u21d2 (st = st' \\u2322 <result>)\"\n        ],\n        \"question\": \"Which of the three pop() operation definitions shown is likely a mistake?\"\n      }\n    ],\n    \"7\": [\n      {\n        \"additionalInfo\": \"The inc-x operation only modifies x, so y would remain unchanged in the post-state.\",\n        \"answers\": [\n          \"y remains unchanged\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_7\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"y increases by 1\",\n          \"y decreases by 1\",\n          \"y becomes 0\"\n        ],\n        \"question\": \"In the Counter example with inc-x and inc-y operations, what can we say about y in the post-state after an inc-x operation?\"\n      }\n    ],\n    \"8\": [\n      {\n        \"additionalInfo\": \"The slide does not mention using the model to generate code automatically. It lists documentation, property checking, and comparison to other artifacts.\",\n        \"answers\": [\n          \"Use it to generate code automatically\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_8\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"Use it as documentation\",\n          \"Determine if it has internal consistency\",\n          \"Examine if it models all properties we care about\"\n        ],\n        \"question\": \"What is NOT listed as a possibility for using a constructed model of a system?\"\n      }\n    ],\n    \"9\": [\n      {\n        \"additionalInfo\": \"The slide states that \\\"A common type of reasoning is to show that the system never does 'bad things'.\\\"\",\n        \"answers\": [\n          \"Showing that the system never does \\\"bad things\\\"\"\n        ],\n        \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378_9\",\n        \"image\": [],\n        \"incorrectAnswers\": [\n          \"Proving the system always terminates\",\n          \"Showing the system is deterministic\",\n          \"Calculating the system's performance\",\n          \"WHAT?!?!?!?!\",\n          \"LOL\"\n        ],\n        \"question\": \"What is a common type of reasoning about state machines mentioned in the slide?\"\n      }\n    ]\n  },\n  \"dateCreated\": \"2025-02-08T13:55:21.639126\",\n  \"dateModified\": \"2025-02-08T13:55:21.639139\",\n  \"file\": \"https://drarso.xyz/pdf_c12b730b-90c5-4435-b9d9-abed32495378.pdf\",\n  \"id\": \"c12b730b-90c5-4435-b9d9-abed32495378\",\n  \"name\": \"06 SM-Reasoning.pdf\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/c12b730b-90c5-4435-b9d9-abed32495378",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"c12b730b-90c5-4435-b9d9-abed32495378"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseURL",
+			"value": "http://127.0.0.1:5000/",
+			"type": "string"
+		}
+	]
+}
