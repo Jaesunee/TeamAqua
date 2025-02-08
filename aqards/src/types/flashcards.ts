@@ -9,6 +9,7 @@ export interface Flashcard {
 
 export interface FlashcardSet {
   id: string // Unique identifier for the flashcard set
+  name: string // User-defined name for the flashcard set
   file: string; // Link to Firebase object storage
   cards: Record<number, Flashcard[]>; // Map of flashcardNum to list of flashcards
 }
