@@ -28,8 +28,8 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
     useEffect(() => {
         setEditedQuestion(question);
         setEditedAnswers(answers);
-      }, [question, answers]); // Update state when props change
-    
+    }, [question, answers]); // Update state when props change
+
     const toggleAnswer = () => setShowAnswer(!showAnswer);
 
     const addAnswer = () => {
@@ -103,81 +103,87 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
             console.error(error);
         }
     }
-        return (
-            <Card shadow="sm" padding="lg" radius="xl" withBorder>
-                <Card.Section>
-                    {image && (
+    return (
+        <Card shadow="sm" padding="lg" radius="xl" withBorder h="80vh" w="30vw">
+            <Card.Section mx={'auto'} mt={'sm'} style={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
+                {image && (
+                    image.length > 0 ? (
                         <Image
                             src={image}
-                            height={160}
+                            w="100%"
+                            h="200px"
+                            fit="cover"
+                            radius="md"
                             alt="Flashcard image"
                         />
-                    )}
-                </Card.Section>
+                    ) : null
+                )}
+            </Card.Section>
 
-                <Group position="apart" mt="md" mb="xs">
-                    <Text weight={500}>Question {slideNumber}</Text>
-                    <Text size="sm" color="dimmed">ID: {id}</Text>
-                </Group>
 
-                <Textarea
-                    value={editedQuestion}
-                    onChange={handleQuestionChange}
-                    placeholder="Enter question"
-                    mb="xl"
-                />
+            <Group position="apart" mt="md" mb="xs">
+                <Text weight={500}>Question {slideNumber}</Text>
+                <Text size="sm" color="dimmed">ID: {id}</Text>
+            </Group>
+            {image}
+            <Textarea
+                value={editedQuestion}
+                onChange={handleQuestionChange}
+                placeholder="Enter question"
+                mb="xl"
+            />
 
-                <Transition mounted={showAnswer} transition="fade" duration={400} timingFunction="ease">
-                    {(styles) => (
-                        <Stack spacing="xs" style={styles}>
-                            {renderAnswers()}
-                            <Button
-                                leftIcon={<IconPlus size={14} />}
-                                variant="outline"
-                                onClick={addAnswer}
-                                fullWidth
-                            >
-                                Add Answer
-                            </Button>
-                        </Stack>
-                    )}
-                </Transition>
+            <Transition mounted={showAnswer} transition="fade" duration={400} timingFunction="ease">
+                {(styles) => (
+                    <Stack spacing="xs" style={styles}>
+                        {renderAnswers()}
+                        <Button
+                            leftIcon={<IconPlus size={14} />}
+                            variant="outline"
+                            onClick={addAnswer}
+                            fullWidth
+                        >
+                            Add Answer
+                        </Button>
+                    </Stack>
+                )}
+            </Transition>
 
-                <Group position="apart" mt="xl">
+            <Group position="apart" mt="xl">
+                <Button
+                    leftIcon={showAnswer ? <IconEyeOff size={14} /> : <IconEye size={14} />}
+                    variant="light"
+                    onClick={toggleAnswer}
+                >
+                    {showAnswer ? 'Hide Answer' : 'Show Answer'}
+                </Button>
+                <Button
+                    onClick={updateFlashcard}>
+                    <IconFileUpload size={14} />
+                </Button>
+                <Group spacing="xs">
                     <Button
-                        leftIcon={showAnswer ? <IconEyeOff size={14} /> : <IconEye size={14} />}
-                        variant="light"
-                        onClick={toggleAnswer}
+                        variant="subtle"
+                        size="sm"
+                        compact
+                        onClick={onPrev}  // Add click handler
+                        disabled={slideNumber <= 1}  // Optional disable
                     >
-                        {showAnswer ? 'Hide Answer' : 'Show Answer'}
+                        <IconChevronLeft size={14} />
                     </Button>
                     <Button
-                        onClick={updateFlashcard}>
-                        <IconFileUpload size={14} />
+                        variant="subtle"
+                        size="sm"
+                        compact
+                        onClick={onNext}  // Add click handler
+                        disabled={lastSlide}  // Optional disable
+                    >
+                        <IconChevronRight size={14} />
                     </Button>
-                    <Group spacing="xs">
-          <Button 
-            variant="subtle" 
-            size="sm" 
-            compact
-            onClick={onPrev}  // Add click handler
-            disabled={slideNumber <= 1}  // Optional disable
-          >
-            <IconChevronLeft size={14} />
-          </Button>
-          <Button 
-            variant="subtle" 
-            size="sm" 
-            compact
-            onClick={onNext}  // Add click handler
-            disabled={lastSlide}  // Optional disable
-          >
-            <IconChevronRight size={14} />
-          </Button>
-        </Group>
                 </Group>
-            </Card>
-        );
-    }
+            </Group>
+        </Card>
+    );
+}
 
-    export default Viewing;
+export default Viewing;
