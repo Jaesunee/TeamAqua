@@ -93,4 +93,6 @@ def upload_pdf():
     return jsonify(res)
 
 if __name__ == "__main__":
+    load_dotenv()
+    CORS(app, resources={r"/*": {"origins": "*"}})
     app.run(debug=True)
