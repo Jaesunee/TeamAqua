@@ -7,9 +7,10 @@ import {
   IconFilePlus,
   IconHome,
   IconSwitchHorizontal,
+  IconCards,
 } from "@tabler/icons-react";
 import { usePathname, useRouter } from "next/navigation";
-import { Code, Group } from "@mantine/core";
+import { Code, Group, Title } from "@mantine/core";
 import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./Navbar.module.css";
 
@@ -45,6 +46,14 @@ export function Navbar() {
       icon: IconUser,
       onClick: (event: React.MouseEvent) => handleLinkClick(event, "/profile"),
     },
+    {
+      active: path === "/flashcard",
+      link: "",
+      label: "Flashcards",
+      icon: IconCards,
+      onClick: (event: React.MouseEvent) =>
+        handleLinkClick(event, "/flashcard"),
+    },
   ];
 
   const handleLinkClick = (event: React.MouseEvent, link: string) => {
@@ -71,8 +80,9 @@ export function Navbar() {
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         <Group className={classes.header} justify="space-between">
-          <MantineLogo size={28} />
-          <Code fw={700}>v3.1.2</Code>
+          <img src="logo.png" width="60" />
+          <Title order={5}>Sharkedu</Title>
+          <Code fw={700}>v1.0.0</Code>
         </Group>
         {links}
       </div>

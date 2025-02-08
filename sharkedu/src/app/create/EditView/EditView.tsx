@@ -13,12 +13,16 @@ import {
   Modal,
   Group,
   Notification,
+  Center,
+  TextInput,
+  Textarea,
 } from "@mantine/core";
 import { FlashcardSet } from "@/types/flashcards";
 import { flashcardSetData } from "@/data/flashcardSet";
 import { PdfViewer } from "@/app/PdfViewer/PdfViewer";
 import { FileWithPath } from "@mantine/dropzone";
 import { IconTrash } from "@tabler/icons-react";
+import dancingShark from "../../../../public/dancing-shark.gif";
 
 interface EditViewProps {
   files: FileWithPath[];
@@ -27,8 +31,8 @@ interface EditViewProps {
 export function EditView({ files }: EditViewProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pdf, setPdf] = useState<FileWithPath[]>([]);
-  const [flashcardSet, setFlashCardSet] =
-    useState<FlashcardSet>(flashcardSetData);
+  const [submitting, setSubmitting] = useState(false);
+  const [flashcardSet, setFlashCardSet] = useState<FlashcardSet>();
   const [undoImage, setUndoImage] = useState<{
     cardId: string;
     image: string;
@@ -43,8 +47,45 @@ export function EditView({ files }: EditViewProps) {
   });
 
   useEffect(() => {
-    console.log("files", files);
-    setFlashCardSet(() => flashcardSet);
+    const handleSubmit = async () => {
+      setSubmitting(true);
+      if (!files) {
+        alert("Please select a PDF file");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", files[0]);
+
+      try {
+        const res = await fetch("https://backend.sharkedu.org/flashcards", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setFlashCardSet(data);
+          const newFile = await createFileFromPath(
+            data.file,
+            "myfile.pdf",
+            "application/pdf"
+          );
+          console.log(`data: ${JSON.stringify(data)}`);
+          setPdf([newFile]);
+        } else {
+          const errorData = await res.json();
+          alert(`Error: ${errorData.data}`);
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Error uploading file");
+      } finally {
+        setSubmitting(false);
+      }
+    };
+
+    handleSubmit();
   }, []);
 
   async function createFileFromPath(
@@ -58,22 +99,11 @@ export function EditView({ files }: EditViewProps) {
     return Object.assign(file, { path: url }) as FileWithPath;
   }
 
-  useEffect(() => {
-    const fetchFile = async () => {
-      const newFile = await createFileFromPath(
-        flashcardSet.file,
-        "myfile.pdf",
-        "application/pdf"
-      );
-      setPdf([newFile]);
-    };
-    fetchFile();
-  }, [flashcardSet.file]);
-
   const flashcardsForPage = flashcardSet ? flashcardSet.cards[currentPage] : [];
 
   const removeImage = (cardId: string, image: string) => {
     const updatedCards = { ...flashcardSet };
+    if (!updatedCards.cards) return;
     updatedCards.cards[currentPage] = updatedCards.cards[currentPage].map(
       (card) =>
         card.id === cardId
@@ -84,7 +114,7 @@ export function EditView({ files }: EditViewProps) {
           : card
     );
     setUndoImage({ cardId, image });
-    setFlashCardSet(updatedCards);
+    // setFlashCardSet(updatedCards);
     setNotificationVisible(true);
     setTimeout(() => setNotificationVisible(false), 5000); // Hide after 5 seconds
   };
@@ -92,6 +122,7 @@ export function EditView({ files }: EditViewProps) {
   const undoRemoveImage = () => {
     if (!undoImage) return;
     const updatedCards = { ...flashcardSet };
+    if (!updatedCards.cards) return;
     updatedCards.cards[currentPage] = updatedCards.cards[currentPage].map(
       (card) =>
         card.id === undoImage.cardId
@@ -99,9 +130,20 @@ export function EditView({ files }: EditViewProps) {
           : card
     );
     setUndoImage(null);
-    setFlashCardSet(updatedCards);
+    // setFlashCardSet(updatedCards);
     setNotificationVisible(false);
   };
+
+  if (submitting) {
+    return (
+      <Center>
+        <Stack py="xl">
+          <Title>Generating flashcards...</Title>
+          <img src="dancing-shark.gif" alt="" />
+        </Stack>
+      </Center>
+    );
+  }
 
   return (
     <Container w="100%" py="xl">
@@ -133,15 +175,20 @@ export function EditView({ files }: EditViewProps) {
                     withBorder
                   >
                     <Stack gap="md">
-                      <Text size="lg" fw={600}>
-                        {card.question}
-                      </Text>
+                      <Textarea
+                        size="sm"
+                        fw={600}
+                        value={card.question}
+                      ></Textarea>
 
                       {/* Render each answer in a separate line */}
                       {card.answers.map((answer, index) => (
-                        <Text key={index} size="sm" c="dimmed">
-                          {answer}
-                        </Text>
+                        <Textarea
+                          key={index}
+                          size="sm"
+                          c="dimmed"
+                          value={answer}
+                        />
                       ))}
 
                       {/* Image Thumbnails */}

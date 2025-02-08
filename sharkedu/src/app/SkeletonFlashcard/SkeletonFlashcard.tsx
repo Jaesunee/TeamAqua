@@ -13,7 +13,7 @@ interface FlashcardProps {
     onUpdate?: (updatedData: Partial<FlashcardProps>) => void;
 }
 
-const BASE_URL = "http://127.0.0.1:5000/";
+const BASE_URL = "https://backend.sharkedu.org/";
 
 function SkeletonFlashcard({ question, answers, image, id, slideNumber, onUpdate }: FlashcardProps) {
     const module = "defaultModule";
