@@ -81,13 +81,13 @@ def extract_flashcards():
     pdf = get_pdf_s3(pdf_link)
     
     text_and_images = extract_pdf(pdf, id=flashcards_id)
-    flashcards = generate_flashcards(text_and_images, 2, "SLIDE_#", flashcards_id)
+    flashcards = generate_flashcards(text_and_images, 20, "SLIDE_#", flashcards_id)
 
     return jsonify(
         {
             "id": flashcards_id,
             "name": pdf_name,
-            "file": pdf_link,
+            "file": "https://drarso.xyz/" + pdf_link,
             "dateCreated": datetime.datetime.now().isoformat(),
             "dateModified": datetime.datetime.now().isoformat(),
             "cards": flashcards
