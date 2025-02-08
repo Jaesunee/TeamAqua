@@ -1,12 +1,13 @@
 // Integrating backend
 // pass image link to frontends
 // define flashcard type here
+import { use } from 'react';
 
-import Flashcard from "../Flashcard/Flashcard";
+import SkeletonFlashCard from "../SkeletonFlashcard/SkeletonFlashcard";
 
 const BASE_URL = "http://127.0.0.1:5000/";
 
-export default async function Integration() {
+export default  function Integration() {
     const module = "defaultModule";
     const chapter = "defaultChapterName";
     const fetchFlashcards = async () => {
@@ -19,13 +20,15 @@ export default async function Integration() {
             console.error(error);
         }
     }
-
-    const flashcards = await fetchFlashcards();
+    
+    const flashcardsPromise = fetchFlashcards();
+    const flashcards = use(flashcardsPromise);    
+    
     return(
         <div>
             <h1>Flashcards</h1>
             {flashcards.map((flashcard, index) => (
-                <Flashcard
+                <SkeletonFlashCard
                     key={flashcard.id}
                     question={flashcard.question}
                     answers={flashcard.answers}
@@ -34,7 +37,6 @@ export default async function Integration() {
                 />
             ))}
 
-            <Flashcard question={""} answers={[]} id={""} slideNumber={0} />
             <h1>Integration</h1>
         </div>
     );

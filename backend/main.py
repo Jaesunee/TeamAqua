@@ -7,7 +7,7 @@ import re
 from routes.extraction_routes import extraction_bp
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 app.register_blueprint(extraction_bp)
 

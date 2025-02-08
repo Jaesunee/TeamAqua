@@ -15,7 +15,7 @@ interface FlashcardProps {
 
 const BASE_URL = "http://127.0.0.1:5000/";
 
-function Flashcard({ question, answers, image, id, slideNumber, onUpdate }: FlashcardProps) {
+function SkeletonFlashcard({ question, answers, image, id, slideNumber, onUpdate }: FlashcardProps) {
     const module = "defaultModule";
     const chapter = "defaultChapterName";
 
@@ -157,4 +157,4 @@ function Flashcard({ question, answers, image, id, slideNumber, onUpdate }: Flas
         );
     }
 
-    export default Flashcard;
+    export default SkeletonFlashcard;
