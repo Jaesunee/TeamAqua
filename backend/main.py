@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from utils.firebase_utils import fs_scrape_and_add_flashcard, fs_get_flashcards, fs_update_flashcard, fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard
+from dotenv import load_dotenv
 import re
 
 # Importing other routes
 from routes.extraction_routes import extraction_bp
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
