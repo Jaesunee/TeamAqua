@@ -1,9 +1,9 @@
 import { FlashcardSet } from "@/types/flashcards";
 
-export const flashcards: FlashcardSet = {
+export const flashcardSetData: FlashcardSet = {
   id: "82b1b3b0-0b1b-4b1b-8b1b-0b1b1b1b1b1b",
   name: "01_FORMAL_METHODS_SLIDES",
-  file: "https://disi.unitn.it/rseba/DIDATTICA/fm2020/01_FORMAL_METHODS_SLIDES.pdf", // Link to Firebase object storage
+  file: "https://drarso.xyz/test.pdf", // Link to Firebase object storage
   dateCreated: "2025-02-06T00:00:00.000Z",
   dateModified: "2025-02-06T00:00:01.000Z",
   cards: {
