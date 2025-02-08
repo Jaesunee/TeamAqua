@@ -60,7 +60,7 @@ def fs_get_flashcards(module_name, chapter_name):
     chapters_ref = db.collection(module_name).document(str(chapter_number))
     
     # Get the flashcard_database sub-collection
-    flashcards_ref = chapters_ref.collection("flashcard_database")
+    flashcards_ref = chapters_ref.collection("flashcard_data")
     flashcards_docs = flashcards_ref.stream()
 
     # Convert the flashcards to a list of dictionaries

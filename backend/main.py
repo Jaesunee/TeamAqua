@@ -11,14 +11,13 @@ CORS(app)
 
 app.register_blueprint(extraction_bp)
 
-
-    
 @app.route("/flashcards/<module_name>/<chapter_name>", methods=["GET"])
 def get_flashcards(module_name:str, chapter_name:int):
     """
     Get all flashcards of a particular module.
     """
     data = fs_get_flashcards(module_name, chapter_name)
+    print(f"Module: {module_name}, Chapter: {chapter_name}, Data: {data}")
     return jsonify(data)
 
 @app.route("/flashcards/<module_name>/<chapter_name>/<flashcard_id>", methods=["PUT"])
@@ -44,12 +43,6 @@ def add_flashcards():
         request.json.get("data", None)
     )
     return jsonify("Status: Done")
-    if input_type == "text":
-        # Input is a block of text copied and pasted in from the web interface in string format
-        output = _generate_flashcards_from_text(request.json.get('text', None))
-        return output
-
-
 
 @app.route("/modules", methods=["GET", "POST"])
 def handle_modules():
@@ -94,11 +87,6 @@ def add_chapter():
             return jsonify({"error": str(e)}), 400
     else:
         return jsonify({"error": "Module does not exist!"}), 400
-
-
-        
-    
-
 
 # @app.route("/items", methods=["POST"])
 # def create_item():
