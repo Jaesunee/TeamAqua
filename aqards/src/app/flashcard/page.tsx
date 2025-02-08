@@ -57,7 +57,8 @@ export default function Flashcard() {
         width: '200px',
         zIndex: 100,
         right: '150px',
-        scale: 1.5
+        top: '50px',
+        scale: 0.8
       }}
     />
         {currentFlashcard ? (
