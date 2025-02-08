@@ -6,20 +6,20 @@ import "react-pdf/dist/esm/Page/TextLayer.css";
 
 import type { PDFDocumentProxy } from "pdfjs-dist";
 import { FileWithPath } from "@mantine/dropzone";
-import { Button, Flex, Text } from "@mantine/core";
+import { Button, Center, Flex, Text } from "@mantine/core";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url
 ).toString();
 
-const maxWidth = 800;
+const maxWidth = 500;
 
-interface PreviewProps {
-  files: FileWithPath[];
+interface PdfViewerProps {
+  files: FileWithPath[]; // this should only be a list of one file.
 }
 
-export function Preview({ files }: PreviewProps) {
+export function PdfViewer({ files }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(null);
@@ -66,20 +66,24 @@ export function Preview({ files }: PreviewProps) {
   return (
     <div className="Example">
       <div className="Example__container">
-        <div className="Example__container__document" ref={setContainerRef}>
+        <div ref={setContainerRef}>
           {containerRef && ( // Prevent rendering if containerRef is not assigned
-            <Document
-              file={files[0]}
-              onLoadSuccess={onDocumentLoadSuccess}
-              options={options}
-            >
-              <Page
-                pageNumber={currentPage}
-                width={
-                  containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
-                }
-              />
-            </Document>
+            <Center>
+              <Document
+                file={files[0]}
+                onLoadSuccess={onDocumentLoadSuccess}
+                options={options}
+              >
+                <Page
+                  pageNumber={currentPage}
+                  width={
+                    containerWidth
+                      ? Math.min(containerWidth, maxWidth)
+                      : maxWidth
+                  }
+                />
+              </Document>
+            </Center>
           )}
         </div>
 
