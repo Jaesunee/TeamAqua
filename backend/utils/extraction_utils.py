@@ -10,56 +10,55 @@ access_key_id = os.getenv('ACCESS_KEY_ID')
 access_key_secret = os.getenv('ACCESS_KEY_SECRET')
 bucket = os.getenv('BUCKET')
 
-def upload_pdf_s3(pdf_file):
+s3 = boto3.client(
+    's3',
+    endpoint_url=f'https://{account_id}.r2.cloudflarestorage.com',
+    config=Config(signature_version='s3v4'),
+    aws_access_key_id=access_key_id,
+    aws_secret_access_key=access_key_secret,
+    region_name='auto'
+)
+
+def upload_pdf_s3(pdf_file, id=uuid.uuid4()):
     """
     Upload a PDF file to S3
     :param pdf_file: FileStorage: PDF file to upload
     :return: str: link to the uploaded file
     """
-    s3 = boto3.client(
-        's3',
-        endpoint_url=f'https://{account_id}.r2.cloudflarestorage.com',
-        config=Config(signature_version='s3v4'),
-        aws_access_key_id=access_key_id,
-        aws_secret_access_key=access_key_secret,
-        region_name='auto'
-    )
-    pdf_link = f"pdf_{uuid.uuid4()}.pdf"
+    pdf_link = f"pdf_{id}.pdf"
     s3.upload_fileobj(pdf_file, bucket, pdf_link)
     return pdf_link
 
-def extract_pdf_s3(pdf):
+def get_pdf_s3(pdf_link):
     """
-    Extract text and image from a PDF file
-    :param pdf_link: str: link to the PDF file
-    :return: [(int, str, [str])]: list of triples containing
-        page id, text, and images links if any of each page
+    Get a PDF file from S3
+    :param pdf: str: link to the PDF file
+    :return: FileStorage: PDF file
     """
-    s3 = boto3.client(
-        's3',
-        endpoint_url=f'https://{account_id}.r2.cloudflarestorage.com',
-        config=Config(signature_version='s3v4'),
-        aws_access_key_id=access_key_id,
-        aws_secret_access_key=access_key_secret,
-        region_name='auto'
-    )
-    response = s3.get_object(Bucket=bucket, Key=pdf)
+    response = s3.get_object(Bucket=bucket, Key=pdf_link)
     body = response['Body']
     mime = response['ContentType']
     pdf = fitz.open(mime, body.read())
-    text_and_images = []
+    return pdf
+
+def extract_pdf(pdf, id=uuid.uuid4()):
+    """
+    Extract text and image from a PDF file
+    :param pdf: fitz.fitz.PDF: PDF object
+    :return: {"text": str, "images": {page_number: [images]}}: full text and images links
+    """
+    text = ""
+    images = {}
     for i in range(pdf.page_count):
-        page_id = uuid.uuid4()
         page = pdf[i]
-        text = page.get_text()
-        images = []
+        text += page.get_text()
+        images[i+1] = []
         for img in page.get_images(full=True):
             xref = img[0]
             base_image = pdf.extract_image(xref)
             image_bytes = base_image["image"]
             image_ext = base_image["ext"]
-            image_path = f"page_{page_id}_image{len(images)+1}.{image_ext}"
+            image_path = f"pdf_{id}_page_{i+1}_image_{len(images)+1}.{image_ext}"
             s3.upload_fileobj(io.BytesIO(image_bytes), bucket, image_path)
-            images.append(image_path)
-        text_and_images.append((page_id, text, images))
-    return text_and_images
+            images[i+1].append(image_path)
+    return {"text": text, "images": images}
