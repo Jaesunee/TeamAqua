@@ -41,7 +41,7 @@ def get_pdf_s3(pdf_link):
     pdf = fitz.open(mime, body.read())
     return pdf
 
-def extract_pdf(pdf, id=uuid.uuid4()):
+def extract_pdf(pdf, id=uuid.uuid4(), delimiter="SLIDE_"):
     """
     Extract text and image from a PDF file
     :param pdf: fitz.fitz.PDF: PDF object
@@ -51,6 +51,7 @@ def extract_pdf(pdf, id=uuid.uuid4()):
     images = {}
     for i in range(pdf.page_count):
         page = pdf[i]
+        text += delimiter + str(i+1) + " \n"
         text += page.get_text()
         images[i+1] = []
         for img in page.get_images(full=True):

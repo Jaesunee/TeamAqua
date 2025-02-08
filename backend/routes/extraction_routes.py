@@ -3,11 +3,12 @@ import uuid
 import datetime
 from flask import Blueprint, request, jsonify
 from utils.extraction_utils import upload_pdf_s3, get_pdf_s3, extract_pdf
+from utils.generation_utils import generate_flashcards
 
 extraction_bp = Blueprint('extraction', __name__, url_prefix='/extraction')
 
 @extraction_bp.route("/flashcards", methods=["POST"])
-def generate_flashcards():
+def extract_flashcards():
     """
     Example request:
     {
@@ -79,7 +80,8 @@ def generate_flashcards():
     pdf_link = upload_pdf_s3(pdf_file, flashcards_id)
     pdf = get_pdf_s3(pdf_link)
     
-    text_and_images = extract_pdf(pdf)
+    text_and_images = extract_pdf(pdf, id=flashcards_id)
+    flashcards = generate_flashcards(text_and_images, 2, "SLIDE_#", flashcards_id)
 
     return jsonify(
         {
@@ -88,7 +90,7 @@ def generate_flashcards():
             "file": pdf_link,
             "dateCreated": datetime.datetime.now().isoformat(),
             "dateModified": datetime.datetime.now().isoformat(),
-            "cards": text_and_images
+            "cards": flashcards
         }
     )
 
