@@ -37,7 +37,9 @@ export default function Sharky({ imageSrc, imagePosition }: SharkyProps) {
             {isHovered && (
                 <div style={{
                     position: 'absolute',
-                    bottom: '25%',
+                    marginTop: '500px',
+                    marginRight: '500px',
+                    top: '5%',
                     left: '60%',
                     transform: `translateY(${floatOffset}px)`,
                     marginBottom: '0px',
