@@ -16,11 +16,13 @@ interface FlashcardProps {
     onUpdate?: (updatedData: Partial<FlashcardProps>) => void;
     onPrev?: () => void;
     onNext?: () => void;
+    showAdditionalInfo?: boolean;
+    toggleAdditionalInfo?: () => void;
 }
 
 const BASE_URL = "http://127.0.0.1:5000/";
 
-function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdate, onPrev, onNext }: FlashcardProps) {
+function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdate, onPrev, onNext, showAdditionalInfo, toggleAdditionalInfo }: FlashcardProps) {
     const module = "defaultModule";
     const chapter = "defaultChapterName";
 
@@ -190,13 +192,13 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
             </Transition>
 
             <Group position="apart" mt="auto" mb={"xs"}>
-                <Button
+                {/* <Button
                     lefticon={showAnswer ? <IconEyeOff size={14} /> : <IconEye size={14} />}
                     variant="light"
                     onClick={toggleAnswer}
                 >
                     {showAnswer ? 'Hide Answer' : 'Show Answer'}
-                </Button>
+                </Button> */}
                 <Group>
                     {!editMode && (
                         <Button onClick={toggleEdit}>
@@ -232,6 +234,14 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                     >
                         <IconChevronRight size={14} />
                     </Button>
+                    <Button
+        onClick={toggleAdditionalInfo}
+        style={{
+          zIndex: 100
+        }}
+      >
+        {showAdditionalInfo ? "Hide Additional Info" : "Show Additional Info"}
+      </Button>
                 </Group>
             </Group>
         </Card>
