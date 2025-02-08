@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Text, Image, Button, Group, Stack, Transition, TextInput, Textarea } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+import ImageDisplay from './Carousel/ImageSlideshow';
 import { IconChevronLeft, IconChevronRight, IconCross, IconEdit, IconEye, IconEyeOff, IconFileUpload, IconPlus, IconSquareRoundedXFilled, IconXboxAFilled, IconXboxXFilled } from '@tabler/icons-react';
 import FlashcardAnswer from './FlashcardAnswer/FlashcardAnswer';
 import FlashcardQuestion from './FlashcardQuestion/FlashcardQuestion';
@@ -27,7 +28,7 @@ interface FlashcardProps {
     image?: string[]; // changed to array
     slideNumber: number; // take from the index at the start
     additionalInfo: string;
-    incorrectAnswers?: string[]; 
+    incorrectAnswers?: string[];
     lastSlide: boolean;
 
     onUpdate?: (updatedData: Partial<FlashcardProps>) => void;
@@ -42,6 +43,7 @@ const BASE_URL = "http://127.0.0.1:5000/";
 function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdate, onPrev, onNext, showAdditionalInfo, toggleAdditionalInfo }: FlashcardProps) {
     const module = "defaultModule";
     const chapter = "defaultChapterName";
+    const hasMultipleImages = Array.isArray(image) && image.length > 1;
 
     const [showAnswer, setShowAnswer] = useState(true);
     const [editedQuestion, setEditedQuestion] = useState(question);
@@ -73,7 +75,7 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
     const handleQuestionChange = (newQuestion: string) => {
         setEditedQuestion(newQuestion);
         onUpdate?.({ question: newQuestion });
-      };
+    };
 
     const handleAnswerChange = (index: number, value: string) => {
         const newAnswers = [...editedAnswers];
@@ -124,7 +126,7 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
             </Group>
         ));
     };
-    
+
 
     const toggleEdit = () => {
         if (!editMode) {
@@ -164,56 +166,8 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
     }
     return (
         <Card shadow="sm" padding="lg" radius="xl" withBorder h="80vh" w="30vw">
-<Card.Section mx={'auto'} mt={'sm'} style={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
-  {image && image.length > 0 && (
-    <Carousel
-      withIndicators
-      height={200}
-      slideSize="100%"
-      slideGap="md"
-      loop
-      align="start"
-      slidesToScroll={1}
-      styles={{
-        control: {
-          '&[data-inactive]': {
-            opacity: 0,
-            cursor: 'default',
-          },
-        },
-      }}
-      nextControlIcon={<IconChevronRight size={16} />}
-      previousControlIcon={<IconChevronLeft size={16} />}
-    >
-      {Array.isArray(image) ? (
-        image.map((img, index) => (
-          <Carousel.Slide key={index}>
-            <Image
-              src={img}
-              height={200}
-              fit="cover"
-              radius="md"
-              alt={`Flashcard image ${index + 1}`}
-            />
-          </Carousel.Slide>
-        ))
-      ) : (
-        <Carousel.Slide>
-          <Image
-            src={image}
-            height={200}
-            fit="cover"
-            radius="md"
-            alt="Flashcard image"
-          />
-        </Carousel.Slide>
-      )}
-    </Carousel>
-  )}
-</Card.Section>
 
-
-
+        <ImageDisplay images={image}  />
             <Group position="apart" mt="md" mb="xs">
                 <Text weight={500}>Question {slideNumber}</Text>
                 <Text size="sm" color="dimmed">ID: {id}</Text>
@@ -230,7 +184,7 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                 {(styles) => (
                     <Stack spacing="xs" style={styles}>
                         {renderAnswers()}
-                       {editMode && ( <Button
+                        {editMode && (<Button
                             lefticon={<IconPlus size={14} />}
                             variant="outline"
                             onClick={addAnswer}
@@ -286,13 +240,13 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                         <IconChevronRight size={14} />
                     </Button>
                     <Button
-        onClick={toggleAdditionalInfo}
-        style={{
-          zIndex: 100
-        }}
-      >
-        {showAdditionalInfo ? "Hide Additional Info" : "Show Additional Info"}
-      </Button>
+                        onClick={toggleAdditionalInfo}
+                        style={{
+                            zIndex: 100
+                        }}
+                    >
+                        {showAdditionalInfo ? "Hide Additional Info" : "Show Additional Info"}
+                    </Button>
                 </Group>
             </Group>
         </Card>
