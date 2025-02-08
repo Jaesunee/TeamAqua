@@ -1,2 +1,6 @@
 python_firebase_keys.json
 __pycache__
+.venv
+env
+.env
+venv/

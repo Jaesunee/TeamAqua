@@ -1,7 +1,23 @@
+"use client";
+
 import { Upload } from "@/app/create/Upload/Upload";
 import { Button, Container, Space, Stack, Text, Title } from "@mantine/core";
+import { FileWithPath } from "@mantine/dropzone";
+import { useState } from "react";
+import { Preview } from "@/app/create/Preview/Preview";
 
 export default function Create() {
+  const [files, setFiles] = useState<FileWithPath[]>([]);
+
+  const onDrop = (files: FileWithPath[]) => {
+    setFiles(() => [...files]);
+    console.log(`accepted files: `, files);
+  };
+
+  const removeFile = () => {
+    setFiles([]);
+  };
+
   return (
     <Container w="100%" py="xl">
       <Stack gap="sm">
@@ -9,9 +25,17 @@ export default function Create() {
         <Text size="lg" c="dimmed">
           Currently, we only accept PDF files.
         </Text>
-        <Upload />
+        {files.length == 0 && <Upload onDrop={onDrop} />}
+        {files.length > 0 && (
+          <>
+            <Button color="red" onClick={removeFile}>
+              Remove File
+            </Button>
+            <Preview files={files} />
+          </>
+        )}
         <Space h="xs" />
-        <Button> Generate flashcards </Button>
+        <Button disabled={files.length === 0}> Generate flashcards </Button>
       </Stack>
     </Container>
   );
