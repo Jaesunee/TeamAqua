@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from backend.utils.firebase_utils import fs_scrape_and_add_flashcard, fs_get_flashcards, fs_update_flashcard, fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard
+from utils.firebase_utils import fs_scrape_and_add_flashcard, fs_get_flashcards, fs_update_flashcard, fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard
 import re
 
 # Importing other routes
@@ -36,16 +36,15 @@ def add_flashcards():
     """
     # Code to generate flashcard from web interface
     input_type = request.json.get('input_type', None)
-    print("We got here")
+    for flashcard in request.json.get("data"):
     # assume validated
-    fs_add_flashcard(
-        request.json.get('module', None),
-        request.json.get('chapterNumber', None),
-        request.json.get('chapterName', None),
-        request.json.get("data", None)
-    )
+        fs_add_flashcard(
+            request.json.get('module', None),
+            request.json.get('chapterNumber', None),
+            request.json.get('chapterName', None),
+            flashcard
+        )
     return jsonify("Status: Done")
-
 
 
 
@@ -101,15 +100,15 @@ def add_chapter():
 #     data.append(new_item)
 #     return jsonify(new_item), 201
 
-@app.route("/items/<int:item_id>", methods=["PUT"])
-def update_item(item_id):
-    item = next((item for item in data if item["id"] == item_id), None)
-    if item is None:
-        return jsonify({"error": "Item not found"}), 404
+# @app.route("/items/<int:item_id>", methods=["PUT"])
+# def update_item(item_id):
+#     item = next((item for item in data if item["id"] == item_id), None)
+#     if item is None:
+#         return jsonify({"error": "Item not found"}), 404
 
-    updated_data = request.json
-    item.update(updated_data)
-    return jsonify(item)
+#     updated_data = request.json
+#     item.update(updated_data)
+#     return jsonify(item)
 
 # @app.route("/items/<int:item_id>", methods=["DELETE"])
 # def delete_item(item_id):

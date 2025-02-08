@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "039413a8-03ae-44ff-b43b-2642b4c59639",
+		"name": "TartanHack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41944168"
+	},
+	"item": [
+		{
+			"name": "AddFlashcard",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"module\" : \"defaultModule\",\n    \"chapter\" : \"defaultChapter\",\n    \"chapterName\" : \"defaultChapterName2\",\n    \"chapterNumber\": 1,\n    \"data\": [\n       { \"question\" : \"This is a question\",\n        \"answers\" : [\"answer 1\", \"answer 2\"],\n        \"image\": [\"image1.png\"],\n        \"slideNumber\" : 1}\n    ]\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/add",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddMultipleFlashcards",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"module\": \"defaultModule\",\n    \"chapter\": \"defaultChapter\",\n    \"chapterName\": \"defaultChapterName2\",\n    \"chapterNumber\": 2,\n    \"data\": [\n        {\n            \"question\": \"This is a question\",\n            \"answers\": [\n                \"answer 1\",\n                \"answer 2\"\n            ],\n            \"image\": [\n                \"image1.png\"\n            ],\n            \"slideNumber\": 1\n        },\n        {\n            \"question\": \"This is a question too\",\n            \"answers\": [\n                \"answer 1\",\n                \"answer 2\"\n            ],\n            \"image\": [\n                \"image1.png\"\n            ],\n            \"slideNumber\": 5\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/add",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateFlashcard",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"module\" : \"defaultModule\",\n    \"chapter\" : \"defaultChapter\",\n    \"chapterName\" : \"defaultChapterName\",\n    \"chapterNumber\": 1,\n    \"data\": {\n        \"question\" : \"This is a question\",\n        \"answers\" : [\"answer 1\", \"answer 2\"],\n        \"image\": [\"image1.png\"],\n        \"slideNumber\" : 1\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/defaultModule/defaultChapterName/43ipFnjVcOYrongpz4eZ",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"defaultModule",
+						"defaultChapterName",
+						"43ipFnjVcOYrongpz4eZ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFlashcard",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"input_type\":\"text\",\n    \"text\": \"?qquestion1 ?a this is the answer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/flashcards/defaultModule/defaultChapterName",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"flashcards",
+						"defaultModule",
+						"defaultChapterName"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseURL",
+			"value": "http://127.0.0.1:5000/",
+			"type": "string"
+		}
+	]
+}
