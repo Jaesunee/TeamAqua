@@ -137,7 +137,7 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                     <Stack spacing="xs" style={styles}>
                         {renderAnswers()}
                         <Button
-                            leftIcon={<IconPlus size={14} />}
+                            lefticon={<IconPlus size={14} />}
                             variant="outline"
                             onClick={addAnswer}
                             fullWidth
@@ -150,7 +150,7 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
 
             <Group position="apart" mt="auto" mb={"xs"}>
                 <Button
-                    leftIcon={showAnswer ? <IconEyeOff size={14} /> : <IconEye size={14} />}
+                    lefticon={showAnswer ? <IconEyeOff size={14} /> : <IconEye size={14} />}
                     variant="light"
                     onClick={toggleAnswer}
                 >
@@ -164,7 +164,6 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                     <Button
                         variant="subtle"
                         size="sm"
-                        compact
                         onClick={onPrev}  // Add click handler
                         disabled={slideNumber <= 1}  // Optional disable
                     >
@@ -173,7 +172,6 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                     <Button
                         variant="subtle"
                         size="sm"
-                        compact
                         onClick={onNext}  // Add click handler
                         disabled={lastSlide}  // Optional disable
                     >

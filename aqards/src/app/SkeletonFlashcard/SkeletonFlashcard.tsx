@@ -125,7 +125,7 @@ function SkeletonFlashcard({ question, answers, image, id, slideNumber, onUpdate
                         <Stack spacing="xs" style={styles}>
                             {renderAnswers()}
                             <Button
-                                leftIcon={<IconPlus size={14} />}
+                                lefticon={<IconPlus size={14} />}
                                 variant="outline"
                                 onClick={addAnswer}
                                 fullWidth
@@ -138,7 +138,7 @@ function SkeletonFlashcard({ question, answers, image, id, slideNumber, onUpdate
 
                 <Group position="apart" mt="xl">
                     <Button
-                        leftIcon={showAnswer ? <IconEyeOff size={14} /> : <IconEye size={14} />}
+                        lefticon={showAnswer ? <IconEyeOff size={14} /> : <IconEye size={14} />}
                         variant="light"
                         onClick={toggleAnswer}
                     >
