@@ -5,6 +5,7 @@ import re
 from dotenv import load_dotenv
 import PyPDF2
 import json
+from extraction_utils import extract_pdf_s3
 
 load_dotenv()
 
@@ -24,12 +25,30 @@ def extract_text_from_pdf(pdf_path, slide_delimiter):
             else:
                 text += page.extract_text()
 
-        print("TEXT" + text)
         return text
+
+# Same as above but with extraction_utils
+def combine_text_from_pdf(pdf, slide_delimiter):
+
+    text_and_images = extract_pdf_s3(pdf)
+    text = ""
+    text += pdf + " "
+    # insert delimiter after each page
+    for page in text_and_images:
+        text += page[1] + slide_delimiter + '_' + str(page[0])
+
+    return text
 
 # Function to generate question-answer pairs from extracted text
 # TODO Add function for array of text for concurrency (as paid feature)
 def generate_flashcards(text, num_pairs, slide_delimiter_form):
+    # get flashcard id from first word of text
+    flashcard_id = ""
+    for c in text:
+        if c == " ":
+            break
+        flashcard_id += c
+        
     flashcards_data = []
 
     messages = [
@@ -63,9 +82,6 @@ def generate_flashcards(text, num_pairs, slide_delimiter_form):
     # Generate flashcards from the triplets
     for idx, info in enumerate(flashcards, 1):
         slide_num, question, answer, explanation, wrong_answers  = info
-        
-        # Generate a unique ID for the flashcard
-        flashcard_id = str(uuid.uuid4())
 
         flashcard = {
             "id": flashcard_id,
@@ -75,31 +91,42 @@ def generate_flashcards(text, num_pairs, slide_delimiter_form):
             "explanation": explanation,
             "incorrectAnswers": wrong_answers
             # add citations?
-            # add images? CONSULT DRARSO?
         }
 
         flashcards_data.append(flashcard)
 
     return flashcards_data
 
-# Main function to generate flashcards from a PDF
+# Function to generate flashcards from PDF
 def generate_flashcards_from_pdf(num_pairs, pdf_name, slide_delimiter="SLIDE"):
     slide_delimiter_form = slide_delimiter + "_#"
 
-    script_path = os.path.abspath(__file__)
-    script_directory = os.path.dirname(script_path)
-    pdf_path = os.path.join(script_directory, pdf_name)
-
-    slides_text = extract_text_from_pdf(pdf_path, slide_delimiter)
+    slides_text = combine_text_from_pdf(pdf_name, slide_delimiter)
     flashcards = generate_flashcards(slides_text, num_pairs, slide_delimiter_form)
 
     return flashcards
 
+# redudant (but different)
+# def generate_flashcards_from_pdf(num_pairs, pdf_name, slide_delimiter="SLIDE"):
+#     slide_delimiter_form = slide_delimiter + "_#"
+
+#     script_path = os.path.abspath(__file__)
+#     script_directory = os.path.dirname(script_path)
+#     pdf_path = os.path.join(script_directory, pdf_name)
+
+#     slides_text = combine_text_from_pdf(pdf_path, slide_delimiter)
+#     flashcards = generate_flashcards(slides_text, num_pairs, slide_delimiter_form)
+
+#     return flashcards
+
+
 # Example usage
 num_pairs = 2  # be careful when increasing this number, results in long wait time for single query
 num_wrong_answers = 5
-pdf_name = 'slides.pdf'
-output = generate_flashcards_from_pdf(num_pairs, pdf_name)
+#TODO Adjust pdf_link
+pdf_link = 'some pdf link'
+
+output = generate_flashcards_from_pdf(num_pairs, pdf_link)
 
 # Convert the output to JSON format
 # TODO Add module, chapter, etc. (see add_flashcards())
