@@ -3,8 +3,14 @@ from flask_cors import CORS
 from firebaseService import fs_scrape_and_add_flashcard, fs_get_flashcards, fs_update_flashcard, fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard
 import re
 
+# Importing other routes
+from routes.extraction_routes import extraction_bp
+
 app = Flask(__name__)
 CORS(app)
+
+app.register_blueprint(extraction_bp)
+
 
 @app.route("/notion/scrape", methods=["GET"])
 def get_items():
