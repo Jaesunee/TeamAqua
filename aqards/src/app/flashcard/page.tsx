@@ -54,6 +54,7 @@ export default function Flashcard() {
           question={currentFlashcard.question}
           answers={currentFlashcard.answers}
           id={currentFlashcard.id}
+          lastSlide={flashcardIndex === flashcards.length - 1}
           slideNumber={flashcardIndex + 1} // Show 1-based index
           onPrev={handlePrev}
           onNext={handleNext}

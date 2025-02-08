@@ -10,6 +10,7 @@ interface FlashcardProps {
     image?: string;
     id: string | number;
     slideNumber: number;
+    lastSlide: boolean;
     onUpdate?: (updatedData: Partial<FlashcardProps>) => void;
     onPrev?: () => void;
     onNext?: () => void;
@@ -17,7 +18,7 @@ interface FlashcardProps {
 
 const BASE_URL = "http://127.0.0.1:5000/";
 
-function Viewing({ question, answers, image, id, slideNumber, onUpdate, onPrev, onNext }: FlashcardProps) {
+function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdate, onPrev, onNext }: FlashcardProps) {
     const module = "defaultModule";
     const chapter = "defaultChapterName";
 
@@ -169,6 +170,7 @@ function Viewing({ question, answers, image, id, slideNumber, onUpdate, onPrev, 
             size="sm" 
             compact
             onClick={onNext}  // Add click handler
+            disabled={lastSlide}  // Optional disable
           >
             <IconChevronRight size={14} />
           </Button>
