@@ -146,6 +146,8 @@ export default function Flashcard() {
               }}>
                    <InfoCard
                     additionalInfo={currentFlashcard?.additionalInfo || ""}
+                    slideNumber={currentFlashcard?.slide_num}
+
                   />
                 {/* <Box
                   p="md"

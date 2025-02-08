@@ -27,6 +27,7 @@ interface FlashcardProps {
     answers: string[];
     image?: string[]; // changed to array
     slideNumber: number; // take from the index at the start
+    slide_num:number,
     additionalInfo: string;
     incorrectAnswers?: string[];
     lastSlide: boolean;
@@ -40,7 +41,7 @@ interface FlashcardProps {
 
 const BASE_URL = "http://127.0.0.1:5000/";
 
-function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdate, onPrev, onNext, showAdditionalInfo, toggleAdditionalInfo }: FlashcardProps) {
+function Viewing({ question, answers, image, id, slideNumber, slide_num, lastSlide, onUpdate, onPrev, onNext, showAdditionalInfo, toggleAdditionalInfo }: FlashcardProps) {
     const module = "defaultModule";
     const chapter = "defaultChapterName";
     const hasMultipleImages = Array.isArray(image) && image.length > 1;
