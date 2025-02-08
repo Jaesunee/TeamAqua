@@ -62,53 +62,49 @@ export function PdfViewer({ files }: PdfViewerProps) {
     }),
     []
   );
-
   return (
-    <div className="Example">
-      <div className="Example__container">
-        <div ref={setContainerRef}>
-          {containerRef && ( // Prevent rendering if containerRef is not assigned
-            <Center>
-              <Document
-                file={files[0]}
-                onLoadSuccess={onDocumentLoadSuccess}
-                options={options}
-              >
-                <Page
-                  pageNumber={currentPage}
-                  width={
-                    containerWidth
-                      ? Math.min(containerWidth, maxWidth)
-                      : maxWidth
-                  }
-                />
-              </Document>
-            </Center>
-          )}
-        </div>
-
-        <Flex justify="center" align="center" gap="md" mt="lg">
-          <Button
-            onClick={goToPreviousPage}
-            disabled={currentPage <= 1}
-            variant="default"
-          >
-            Previous
-          </Button>
-
-          <Text size="md" fw={500}>
-            Page {currentPage} of {numPages || "?"}
-          </Text>
-
-          <Button
-            onClick={goToNextPage}
-            disabled={!numPages || currentPage >= numPages}
-            variant="default"
-          >
-            Next
-          </Button>
-        </Flex>
-      </div>
-    </div>
+    <Container size="xl" py="xl">
+      <Sharky 
+        imageSrc={sharky.src} 
+        imagePosition={{
+          position: 'absolute',
+          width: '200px',
+          zIndex: 100,
+          right: '50px',
+          top: '50px',
+          scale: 0.8
+        }}
+      />
+      <Grid gutter="xl">
+        <Grid.Col span={{ base: 12, md: 6 }}>
+          <Center h="70vh">
+            {currentFlashcard ? (
+              <ViewingFlashcard
+                question={currentFlashcard.question}
+                answers={currentFlashcard.answers}
+                id={currentFlashcard.id}
+                image={currentFlashcard.image}
+                lastSlide={flashcardIndex === flashcards.length - 1}
+                slideNumber={flashcardIndex + 1}
+                onPrev={handlePrev}
+                onNext={handleNext}
+              />
+            ) : (
+              <div>No flashcard available</div>
+            )}
+          </Center>
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6 }}>
+          <Center h="70vh">
+            <div>
+              <h1>Additional Info</h1>
+              <InfoCard
+                additionalInfo={currentFlashcard ? currentFlashcard.additionalInfo : ""}
+              />
+            </div>
+          </Center>
+        </Grid.Col>
+      </Grid>
+    </Container>
   );
 }
