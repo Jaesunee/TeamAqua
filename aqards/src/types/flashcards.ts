@@ -4,11 +4,10 @@ export interface Flashcard {
   answers: string[]; // Possible answers
   incorrectAnswers?: string[]; // Incorrect answers
   image: string[]; // Images extracted from the slide
-  slideNumber: number; // Slide number from which the question is derived
   additionalInfo: string; // Extra info AI can search for outside of slide content
 }
 
 export interface FlashcardSet {
   file: string; // Link to Firebase object storage
-  cards: Flashcard[]; // Array of flashcards
+  cards: Record<number, Flashcard[]>; // Map of flashcardNum to list of flashcards
 }
