@@ -70,17 +70,7 @@ export default function Flashcard() {
         }}
       />
 
-      <Button
-        onClick={toggleAdditionalInfo}
-        style={{
-          position: 'absolute',
-          top: '20px',
-          left: '20px',
-          zIndex: 100
-        }}
-      >
-        {showAdditionalInfo ? "Hide Additional Info" : "Show Additional Info"}
-      </Button>
+   
       <Grid gutter="xl" justify="space-between" align="stretch" mt={'xl'} style={{ transition: 'transform 0.5s ease' }}>
         <Grid.Col
           span={{ base:1, md: 3 }}
@@ -115,7 +105,8 @@ export default function Flashcard() {
                   slideNumber={flashcardIndex + 1}
                   onPrev={handlePrev}
                   onNext={handleNext}
-                />
+                  showAdditionalInfo={showAdditionalInfo}
+                  toggleAdditionalInfo={toggleAdditionalInfo}                />
               </div>
             )}
           </Transition>
