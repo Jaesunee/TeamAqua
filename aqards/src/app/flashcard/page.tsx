@@ -56,7 +56,7 @@ export default function Flashcard() {
         position: 'absolute',
         width: '200px',
         zIndex: 100,
-        right: '150px',
+        right: '50px',
         top: '50px',
         scale: 0.8
       }}

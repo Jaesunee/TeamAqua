@@ -26,7 +26,7 @@ export default  function Integration() {
     
     return(
         <div>
-            <h1>Flashcards</h1>
+            <h1>Flashcards Below </h1>
             {flashcards.map((flashcard, index) => (
                 <SkeletonFlashCard
                     key={flashcard.id}

@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card, Text, Image, Button, Group, Stack, Transition, TextInput, Textarea } from '@mantine/core';
-import { IconChevronLeft, IconChevronRight, IconEye, IconEyeOff, IconFileUpload, IconPlus, IconSquareRoundedXFilled } from '@tabler/icons-react';
+import { IconChevronLeft, IconChevronRight, IconCross, IconEdit, IconEye, IconEyeOff, IconFileUpload, IconPlus, IconSquareRoundedXFilled, IconXboxAFilled, IconXboxXFilled } from '@tabler/icons-react';
+import FlashcardAnswer from './FlashcardAnswer/FlashcardAnswer';
 
 interface FlashcardProps {
     question: string;
@@ -22,9 +23,12 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
     const module = "defaultModule";
     const chapter = "defaultChapterName";
 
-    const [showAnswer, setShowAnswer] = useState(false);
+    const [showAnswer, setShowAnswer] = useState(true);
     const [editedQuestion, setEditedQuestion] = useState(question);
     const [editedAnswers, setEditedAnswers] = useState(answers);
+    const [editMode, setEditMode] = useState(false);
+    const [originalAnswers, setOriginalAnswers] = useState<string[]>([]);
+
     useEffect(() => {
         setEditedQuestion(question);
         setEditedAnswers(answers);
@@ -52,38 +56,74 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
         onUpdate?.({ question: newQuestion });
     };
 
-    const handleAnswerChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAnswerChange = (index: number, value: string) => {
         const newAnswers = [...editedAnswers];
-        newAnswers[index] = event.currentTarget.value;
+        newAnswers[index] = value;
         setEditedAnswers(newAnswers);
-        onUpdate?.({ answers: newAnswers });
     };
 
     const renderAnswers = () => {
         return editedAnswers.map((answer, index) => (
-            <Group key={index} spacing="xs">
-                <TextInput
-                    value={answer}
-                    onChange={(event) => handleAnswerChange(index, event)}
-                    placeholder={`Answer ${index + 1}`}
-                    style={{ flex: 1 }}
-                />
-                <IconSquareRoundedXFilled
-                    size={14}
-                    color="red"
-                    onClick={() => deleteAnswer(index)}
-                    disabled={editedAnswers.length <= 1}
-                >
-                    <IconSquareRoundedXFilled size={14} />
-                </IconSquareRoundedXFilled>
+            <Group key={index} align="center" spacing="xs" noWrap>
+                <div style={{ flex: 1 }}>
+                    <FlashcardAnswer
+                        answer={answer}
+                        editMode={editMode}
+                        index={index}
+                        onChange={handleAnswerChange}
+                    />
+                </div>
+                {editMode && (
+                    <Group spacing="xs" noWrap>
+                        <Button
+                            variant="outline"
+                            color="blue"
+                            size="sm"
+                            onClick={() => updateAnswer(index)}
+                        >
+                            <IconFileUpload size={14} />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            color="red"
+                            size="sm"
+                            onClick={() => resetAnswer(index)}
+                        >
+                            <IconXboxAFilled size={14} />
+                        </Button>
+                    </Group>
+                )}
+                {!editMode && (
+                    <IconSquareRoundedXFilled
+                        size={14}
+                        color="red"
+                        onClick={() => deleteAnswer(index)}
+                        disabled={editedAnswers.length <= 1}
+                        style={{ cursor: 'pointer' }}
+                    />
+                )}
             </Group>
         ));
+    };
+    
+
+    const toggleEdit = () => {
+        if (!editMode) {
+            // Save snapshot when entering edit mode
+            setOriginalAnswers([...editedAnswers]);
+        }
+        setEditMode(!editMode);
+    };
+
+    const resetChanges = () => {
+        setEditedAnswers([...originalAnswers]);
+        setEditMode(false);
     };
 
     const updateFlashcard = () => {
         console.log("Updating for " + id);
         const updatedData = { question: editedQuestion, answers: editedAnswers };
-        console.log(updatedData);
+        setEditMode(false);
         try {
             fetch(`${BASE_URL}/flashcards/${module}/${chapter}/${id}`, {
                 method: 'PUT',
@@ -98,7 +138,7 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                 })
                 .catch((error) => {
                     console.error('Error updating flashcard:', error);
-                });
+                })
         } catch (error) {
             console.error(error);
         }
@@ -156,10 +196,24 @@ function Viewing({ question, answers, image, id, slideNumber, lastSlide, onUpdat
                 >
                     {showAnswer ? 'Hide Answer' : 'Show Answer'}
                 </Button>
-                <Button
-                    onClick={updateFlashcard}>
-                    <IconFileUpload size={14} />
-                </Button>
+                <Group>
+                    {!editMode && (
+                        <Button onClick={toggleEdit}>
+                            <IconEdit size={14} />
+                        </Button>
+                    )}
+
+                    {editMode && (
+                        <Group>
+                            <Button onClick={updateFlashcard} color="green">
+                                <IconFileUpload size={14} />
+                            </Button>
+                            <Button onClick={resetChanges} color="red">
+                                <IconXboxXFilled size={14} />
+                            </Button>
+                        </Group>
+                    )}
+                </Group>
                 <Group spacing="xs">
                     <Button
                         variant="subtle"
