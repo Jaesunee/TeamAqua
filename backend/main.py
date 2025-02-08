@@ -12,50 +12,6 @@ CORS(app)
 app.register_blueprint(extraction_bp)
 
 
-@app.route("/notion/scrape", methods=["GET"])
-def get_items():
-    url = request.args.get('url', None)
-    module = request.args.get('module', None)
-    chapter_number = request.args.get('chapterNumber', None)
-    chapter_name = request.args.get('chapterName', None)
-
-    if url and module and chapter_number and chapter_name:
-        # Replace 'data' with your actual data processing logic
-        res = fs_scrape_and_add_flashcard(url, module,chapter_number, chapter_name)
-        return "Done"
-    else:
-        return jsonify({"error": "All parameters (url, module, chapter_number, and chapter_name) must be provided."}), 400
-    
-@app.route("/flashcards/generate", methods=["POST"])
-def generate_flashcards():
-    # Code to generate flashcard from web interface
-    input_type = request.json.get('input_type', None)
-    if input_type == "text":
-        # Input is a block of text copied and pasted in from the web interface in string format
-        output = _generate_flashcards_from_text(request.json.get('text', None))
-        return output
-
-def _generate_flashcards_from_text(text:str) -> dict:
-    # Split the text into list of strings based on ?q
-    questions = []
-    split_questions = text.split("?q")[1:]
-    pattern = r"\?(q|a|h)\s(.*?)(?=\?\w|$)"
-    for question in split_questions:
-        current_question = {"prompt": "", "answer":[], "hint":[]}
-        question = "?q " + question
-        matches = re.findall(pattern, question, re.DOTALL)
-
-        for match in matches:
-            marker = match[0]
-            content = match[1]
-            if marker == "q":
-                current_question["prompt"] = content
-            elif marker == "a":
-                current_question["answer"].append(content)
-            elif marker == "h":
-                current_question["hint"].append(content)
-        questions.append(current_question)
-    return questions
     
 @app.route("/flashcards/<module_name>/<chapter_name>", methods=["GET"])
 def get_flashcards(module_name:str, chapter_name:int):
@@ -94,18 +50,6 @@ def add_flashcards():
         return output
 
 
-@app.route("/login", methods=["GET"])
-def login():
-    """
-    Create user object inside Firebase if first time login, if not retrieve UID.
-    """
-    id = request.args.get('id', None)
-    if id:
-        # Replace 'data' with your actual data processing logic
-        res = fs_login(id)
-        return jsonify(res)
-    else:
-        return jsonify({"error": "User id must be provided."}), 400
 
 @app.route("/modules", methods=["GET", "POST"])
 def handle_modules():
@@ -178,5 +122,62 @@ def add_chapter():
 #     data = [item for item in data if item["id"] != item_id]
 #     return jsonify({"result": "Item deleted"})
 
+# @app.route("/login", methods=["GET"])
+# def login():
+#     """
+#     Create user object inside Firebase if first time login, if not retrieve UID.
+#     """
+#     id = request.args.get('id', None)
+#     if id:
+#         # Replace 'data' with your actual data processing logic
+#         res = fs_login(id)
+#         return jsonify(res)
+#     else:
+#         return jsonify({"error": "User id must be provided."}), 400
+
+# @app.route("/notion/scrape", methods=["GET"])
+# def get_items():
+#     url = request.args.get('url', None)
+#     module = request.args.get('module', None)
+#     chapter_number = request.args.get('chapterNumber', None)
+#     chapter_name = request.args.get('chapterName', None)
+
+#     if url and module and chapter_number and chapter_name:
+#         # Replace 'data' with your actual data processing logic
+#         res = fs_scrape_and_add_flashcard(url, module,chapter_number, chapter_name)
+#         return "Done"
+#     else:
+#         return jsonify({"error": "All parameters (url, module, chapter_number, and chapter_name) must be provided."}), 400
+    
+# @app.route("/flashcards/generate", methods=["POST"])
+# def generate_flashcards():
+#     # Code to generate flashcard from web interface
+#     input_type = request.json.get('input_type', None)
+#     if input_type == "text":
+#         # Input is a block of text copied and pasted in from the web interface in string format
+#         output = _generate_flashcards_from_text(request.json.get('text', None))
+#         return output
+
+# def _generate_flashcards_from_text(text:str) -> dict:
+#     # Split the text into list of strings based on ?q
+#     questions = []
+#     split_questions = text.split("?q")[1:]
+#     pattern = r"\?(q|a|h)\s(.*?)(?=\?\w|$)"
+#     for question in split_questions:
+#         current_question = {"prompt": "", "answer":[], "hint":[]}
+#         question = "?q " + question
+#         matches = re.findall(pattern, question, re.DOTALL)
+
+#         for match in matches:
+#             marker = match[0]
+#             content = match[1]
+#             if marker == "q":
+#                 current_question["prompt"] = content
+#             elif marker == "a":
+#                 current_question["answer"].append(content)
+#             elif marker == "h":
+#                 current_question["hint"].append(content)
+#         questions.append(current_question)
+#     return questions
 if __name__ == "__main__":
     app.run(debug=True)

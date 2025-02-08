@@ -6,14 +6,11 @@ from datetime import datetime
 import json
 
 # Replace 'path/to/your-service-account.json' with the path to your Firebase service account JSON file
-cred = credentials.Certificate("../python_fb_key.json")
+cred = credentials.Certificate("../python_firebase_keys.json")
 firebase_admin.initialize_app(cred)
 
 # Initialize Firestore
 db = firestore.client()
-
-# Given a URL, scrape it and add to db
-# url_to_scrape = "https://precious-lilac-ec3.notion.site/CardCraft-Example-9dca5a06650540b687a8c48c565d1b89"  # Replace with the URL you want to scrape
 
 def fs_add_flashcard(module: str, chapter_number:int, chapter_name:str, data:dict):
     db.collection(module).document(str(chapter_number)).collection("flashcard_data").add(data)
