@@ -34,6 +34,20 @@ def update_flashcards(flashcards_id):
     update_data(flashcards_id, data)
     return jsonify(data)
 
+# update one flashcard
+@app.route("/flashcards/<flashcards_id>/cards/<card_id>", methods=["PUT"])
+def update_flashcard(flashcards_id, card_id):
+    data = request.json
+    flashcards = get_data(flashcards_id)
+    cards = flashcards["cards"]
+    for card in cards.keys():
+        if cards[card] == card_id:
+            cards[card].update(data)
+            break
+    
+    update_data(flashcards_id, data)
+    return jsonify(data)
+
 @app.route("/flashcards", methods=["POST"])
 def upload_pdf():
     """
