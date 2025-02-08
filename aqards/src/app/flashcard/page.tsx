@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import ViewingFlashcard from '../ViewingFlashcard/ViewingFlashcard';
+import Sharky from '../Sharky/Sharky';
 import { Container, Center } from '@mantine/core';
+import sharky from "../../../public/sharky.png";
 
 const BASE_URL = "http://127.0.0.1:5000/";
 
@@ -48,21 +50,30 @@ export default function Flashcard() {
   return (
     <Container >
       <Center h="70vh" mt={"15vh"}>
-
-      {currentFlashcard ? (
-        <ViewingFlashcard
-        question={currentFlashcard.question}
-        answers={currentFlashcard.answers}
-        id={currentFlashcard.id}
-        image={currentFlashcard.image}
-        lastSlide={flashcardIndex === flashcards.length - 1}
-        slideNumber={flashcardIndex + 1} // Show 1-based index
-        onPrev={handlePrev}
-        onNext={handleNext}
-        />
-      ) : (
-        <div>No flashcard available</div>
-      )}
+      <Sharky 
+      imageSrc={sharky.src} 
+      imagePosition={{
+        position: 'absolute',
+        width: '200px',
+        zIndex: 100,
+        right: '150px',
+        scale: 1.5
+      }}
+    />
+        {currentFlashcard ? (
+          <ViewingFlashcard
+            question={currentFlashcard.question}
+            answers={currentFlashcard.answers}
+            id={currentFlashcard.id}
+            image={currentFlashcard.image}
+            lastSlide={flashcardIndex === flashcards.length - 1}
+            slideNumber={flashcardIndex + 1} // Show 1-based index
+            onPrev={handlePrev}
+            onNext={handleNext}
+          />
+        ) : (
+          <div>No flashcard available</div>
+        )}
       </Center>
     </Container>
   );
