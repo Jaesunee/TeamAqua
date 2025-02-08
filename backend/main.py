@@ -25,6 +25,20 @@ def get_flashcards(flashcards_id:str):
     data = get_data(flashcards_id)
     return jsonify(data)
 
+@app.route("/flashcards/legacy/<flashcards_id>", methods=["GET"])
+def get_legacy_flashcards(flashcards_id:str):
+    """
+    Get ALL flashcards of a particular module.
+    """
+    data = get_data(flashcards_id)
+    cards = []
+    for k, v in data["cards"].items():
+        for c in v:
+            c["slide_num"] = k
+            cards.append(c)
+    data["cards"] = cards
+    return jsonify(data)
+
 @app.route("/flashcards/<flashcards_id>", methods=["PUT"])
 def update_flashcards(flashcards_id):
     """
