@@ -178,7 +178,7 @@ export function EditView({ files }: EditViewProps) {
                       <Textarea
                         size="sm"
                         fw={600}
-                        value={card.question}
+                        defaultValue={card.question}
                       ></Textarea>
 
                       {/* Render each answer in a separate line */}
@@ -187,7 +187,7 @@ export function EditView({ files }: EditViewProps) {
                           key={index}
                           size="sm"
                           c="dimmed"
-                          value={answer}
+                          defaultValue={answer}
                         />
                       ))}
 
