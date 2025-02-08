@@ -27,7 +27,7 @@ def update_flashcards():
     """
     Update a particular flashcard, given the module name, chapter name and flashcard id
     """
-    data = fs_update_flashcards()
+    data = fs_update_flashcards(request.json)
     return jsonify(data)
 
 @app.route("/flashcards", methods=["POST"])
