@@ -4,6 +4,7 @@ import { MantineProvider } from "@mantine/core";
 import { Layout } from "@/app/Layout/Layout";
 import "./globals.css";
 import "@mantine/core/styles.css";
+import "@mantine/dropzone/styles.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mantine/core": "^7.16.2",
+    "@mantine/dropzone": "^7.16.2",
     "@mantine/hooks": "^7.16.2",
     "@mantinex/mantine-logo": "^1.1.0",
     "@tabler/icons-react": "^3.30.0",
