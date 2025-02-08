@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from utils.firebase_utils import fs_scrape_and_add_flashcard, fs_get_flashcards, fs_update_flashcard, fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard, fs_get_chapters
+from utils.firebase_utils import fs_get_flashcards, fs_update_flashcards, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard, fs_get_chapters
 from dotenv import load_dotenv
 import re
 
@@ -14,100 +14,31 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 app.register_blueprint(extraction_bp)
 
-@app.route("/flashcards/<module_name>/<chapter_name>", methods=["GET"])
-def get_flashcards(module_name:str, chapter_name:int):
+@app.route("/flashcards/<flashcard_id>", methods=["GET"])
+def get_flashcards(flashcard_id:str):
     """
     Get ALL flashcards of a particular module.
     """
-    data = fs_get_flashcards(module_name, chapter_name)
+    data = fs_get_flashcards()
     return jsonify(data)
 
-@app.route("/flashcards/<module_name>/<chapter_name>/<flashcard_id>", methods=["PUT"])
-def update_flashcard(module_name:str, chapter_name:int, flashcard_id:str):
+@app.route("/flashcards", methods=["PUT"])
+def update_flashcards():
     """
     Update a particular flashcard, given the module name, chapter name and flashcard id
     """
-    new_flashcard_obj = request.json
-    data = fs_update_flashcard(module_name, chapter_name, flashcard_id, new_flashcard_obj)
+    data = fs_update_flashcards()
     return jsonify(data)
 
-@app.route("/flashcards/add", methods=["POST"])
-def add_flashcards():
+@app.route("/flashcards", methods=["POST"])
+def upload_pdf():
     """
-    Add a single flashcard to a module
+    Upload a PDF file to the server and extract flashcards from it.
     """
-    # Code to generate flashcard from web interface
-    input_type = request.json.get('input_type', None)
-    for flashcard in request.json.get("data"):
-    # assume validated
-        fs_add_flashcard(
-            request.json.get('module', None),
-            request.json.get('chapterNumber', None),
-            request.json.get('chapterName', None),
-            flashcard
-        )
-    return jsonify("Status: Done")
+    data = extraction_bp.extract_flashcards()
+    return jsonify(data)
 
-@app.route("/flashcards/<module_name>/chapters", methods=["GET"])
-def get_chapters(module_name):
-    """
-    Retrieve chapters from a module.
-    """
-    try:
-        chapters = fs_get_chapters(module_name)
-        return jsonify({"chapters": chapters}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
-
-# ======================= Redundant =======================
-
-@app.route("/modules", methods=["GET", "POST"])
-def handle_modules():
-    """
-    Handle GET and POST requests for modules.
-    """
-    if request.method == "GET":
-        user_id = request.args.get('id', None)
-        try:
-            res = fs_get_modules(user_id)
-            return jsonify(res)
-        except Exception as e:
-            return jsonify({"error": str(e)}), 400
-    
-    elif request.method == "POST":
-        module_name = request.json.get('moduleName', None)
-        user_id = request.json.get('userId', None)
-        
-        if module_name and user_id:
-            try:
-                fs_add_modules(module_name, user_id)
-                return jsonify({"message": "Module added successfully."}), 201
-            except Exception as e:
-                return jsonify({"error": str(e)}), 400
-        else:
-            return jsonify({"error": "moduleName and userId must be provided."}), 400
-
-@app.route("/modules/chapter", methods=["POST"])
-def add_chapter():
-    """
-    Add a chapter to a module.
-    """
-    module_name = request.json.get('moduleName', None)
-    chapter_name = request.json.get('chapterName', None)
-    user_id = request.json.get('userId', None)
-    
-    if module_name and chapter_name and user_id:
-        try:
-            fs_add_chapter(chapter_name, module_name,  user_id)
-            return jsonify({"message": "Chapter added successfully."}), 201
-        except Exception as e:
-            return jsonify({"error": str(e)}), 400
-    else:
-        return jsonify({"error": "Module does not exist!"}), 400
-    
-
-
-
+# REFERENCE
 # @app.route("/items", methods=["POST"])
 # def create_item():
 #     new_item = request.json
