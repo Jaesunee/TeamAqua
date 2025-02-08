@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from firebaseService import fs_scrape_and_add_flashcard, fs_get_flashcards, fs_update_flashcard, fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard
+from backend.utils.firebase_utils import fs_scrape_and_add_flashcard, fs_get_flashcards, fs_update_flashcard, fs_login, fs_get_modules, fs_add_modules, fs_add_chapter, fs_add_flashcard
 import re
 
 # Importing other routes
@@ -14,7 +14,7 @@ app.register_blueprint(extraction_bp)
 @app.route("/flashcards/<module_name>/<chapter_name>", methods=["GET"])
 def get_flashcards(module_name:str, chapter_name:int):
     """
-    Get all flashcards of a particular module.
+    Get ALL flashcards of a particular module.
     """
     data = fs_get_flashcards(module_name, chapter_name)
     print(f"Module: {module_name}, Chapter: {chapter_name}, Data: {data}")
@@ -23,7 +23,7 @@ def get_flashcards(module_name:str, chapter_name:int):
 @app.route("/flashcards/<module_name>/<chapter_name>/<flashcard_id>", methods=["PUT"])
 def update_flashcard(module_name:str, chapter_name:int, flashcard_id:str):
     """
-    Update a particular flashcard
+    Update a particular flashcard, given the module name, chapter name and flashcard id
     """
     new_flashcard_obj = request.json
     data = fs_update_flashcard(module_name, chapter_name, flashcard_id, new_flashcard_obj)
@@ -31,6 +31,9 @@ def update_flashcard(module_name:str, chapter_name:int, flashcard_id:str):
 
 @app.route("/flashcards/add", methods=["POST"])
 def add_flashcards():
+    """
+    Add a single flashcard to a module
+    """
     # Code to generate flashcard from web interface
     input_type = request.json.get('input_type', None)
     print("We got here")
@@ -42,6 +45,11 @@ def add_flashcards():
         request.json.get("data", None)
     )
     return jsonify("Status: Done")
+
+
+
+
+# ======================= Redundant =======================
 
 @app.route("/modules", methods=["GET", "POST"])
 def handle_modules():
