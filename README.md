@@ -21,7 +21,7 @@ Google Drive Link: [demo video](https://drive.google.com/file/d/1OdWVTf_Ta6juA2D
 ## Technologies
 
 - **Frontend**: React.js, Next.js
-- **Backend**: Node.js, Python, Cloudflare Pages
+- **Backend**: Node.js, Python (flask), Cloudflare Pages
 - **Database**: Firestore
 - **APIs**: Perplexity
 - **Deployment**: Docker
