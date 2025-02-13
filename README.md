@@ -1,4 +1,4 @@
-![Sharkedu Logo](./logo.PNG)
+<img src="./logo.PNG" alt="Sharkedu Logo" width="25%" height="25%">
 
 # Sharkedu
 
