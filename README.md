@@ -1,4 +1,4 @@
-<img src="./logo.PNG" alt="Sharkedu Logo" width="25%" height="25%">
+<img src="./logo.PNG" alt="Sharkedu Logo" width="40%" height="40%">
 
 # Sharkedu
 
