@@ -1,6 +1,7 @@
 <p align="center">
   <img src="./logo.PNG" alt="Sharkedu Logo" width="40%" height="40%">
 </p>
+
 # Sharkedu
 
 ## Project Overview
