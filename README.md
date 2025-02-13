@@ -2,6 +2,7 @@
   <img src="./logo.PNG" alt="Sharkedu Logo" width="40%" height="40%">
 </p>
 # Sharkedu
+
 ## Project Overview
 
 Sharkedu is an AI-powered educational platform designed to enhance learning experiences through interactive and engaging content. Developed during [TartanHacks](https://tartanhacks.com/) 2025, our project aims to provide students with a clever way to learn complex subjects through automation, gamification, and real-time feedback.
