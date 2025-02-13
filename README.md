@@ -1,4 +1,4 @@
-
+![Sharkedu Logo](./logo.PNG)
 
 # Sharkedu
 
