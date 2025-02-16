@@ -9,7 +9,7 @@
 Sharkedu is an AI-powered educational platform designed to enhance learning experiences through interactive and engaging content. Developed during [TartanHacks](https://tartanhacks.com/) 2025, our project aims to provide students with a clever way to learn complex subjects through automation, gamification, and real-time feedback.
 
 ## Demo
-Google Drive Link: [demo video]([https://drive.google.com/file/d/1OdWVTf_Ta6juA2D8bdU-SzW7i_NMNH9c/view?usp=drive_link](https://youtu.be/ZmSNNQuNxKc))
+Google Drive Link: [demo video](https://youtu.be/ZmSNNQuNxKc)
 
 ## Features
 
