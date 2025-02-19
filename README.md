@@ -34,7 +34,7 @@ Youtube Link: [demo video](https://youtu.be/ZmSNNQuNxKc)
     ```
 2. Navigate to the project directory:
     ```bash
-    cd Sharkedu
+    cd sharkedu
     ```
 3. Install dependencies:
     ```bash
