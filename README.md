@@ -22,9 +22,9 @@ Youtube Link: [demo video](https://youtu.be/ZmSNNQuNxKc)
 
 - **Frontend**: React.js, Next.js
 - **Backend**: Node.js, Python (flask), Cloudflare Pages
-- **Database**: Firestore
+- **Database**: Firestore, Cloudflare R2
 - **APIs**: Perplexity
-- **Deployment**: Docker
+- **Deployment**: Digital Ocean
 
 ## Installation
 
@@ -39,6 +39,8 @@ Youtube Link: [demo video](https://youtu.be/ZmSNNQuNxKc)
 3. Install dependencies:
     ```bash
     npm install
+    cd backend
+    pip install requirements.txt
     ```
 4. Start the development server:
     ```bash
